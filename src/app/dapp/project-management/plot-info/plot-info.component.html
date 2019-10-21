@@ -1,0 +1,430 @@
+<div *ngIf="isLoading" class="overlay">
+    <em class="loadTitle">Loading...</em>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+        </div>
+</div>
+<div class="row">
+    <div class="col-md-12 pl-sm-auto pl-md-0 pr-md-0  mt-2" *ngIf="ploting">
+        <div class="card" style="border-left: 1px solid #eaeaea;">
+                <div class="card-header" style="background-color: #ccc;">
+                    <span class="pull-left">Plot Information </span>
+                    <span class="pull-right">Inventory <span class="badge badge-primary ml-1">{{ploting.variationCount}} </span></span>
+                </div>
+                <div class="card-body">
+                    <div class="row status">
+                        <div class="col-6 col-md-4"><div>Actual Price<span> : {{ploting.actualPrice}}
+                        </span><mat-divider></mat-divider> </div>
+                        </div>
+                        <div class="col-6 col-md-4"><div>Dimention<span> : {{ploting.dimension}}</span><mat-divider></mat-divider>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div>Estimated Price<span> : {{ploting.estimatedPrice}}</span><mat-divider></mat-divider>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-md-4">
+                            <div >Variation Count<span> : {{ploting.variationCount}}</span><mat-divider></mat-divider>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div class="row test" *ngIf="ploting">
+    <div class="col-md-4  pl-sm-auto pl-md-0 mt-2" *ngFor="let plot of ploting.inventoryMapper; let i=index">
+        <div class="card" [ngClasss]=" (plot.availabilityStatus=='AVAILABLE')?'succ':((plot.availabilityStatus=='BOOKED')?'warn':
+        ((plot.availabilityStatus=='DELIVERED')?'inf':'dang')) ">
+            <div class="card-header">
+                <span><b>Plot {{i+1}}</b></span>
+                <span class="pull-right">
+                    <button *ngIf="plot.availabilityStatus == 'AVAILABLE' || plot.availabilityStatus == 'AVAILABLE'" (click)="openBookingModal(plot)"
+                    class="waves-effect m-0 btn btn-sm btn-success">Book</button>
+                    <button *ngIf="plot.availabilityStatus == 'BOOKED'" (click)="openDeliverModal(plot)"
+                     class="waves-effect m-0 btn btn-sm btn-primary">Deliver</button>
+                    <button *ngIf="plot.availabilityStatus == 'BOOKED'" (click)="openCancelModal(plot)"
+                     class="waves-effect m-0 ml-2 btn btn-sm btn-secondary">Cancel</button>
+                    <button *ngIf="plot.availabilityStatus == 'CANCELLED'" (click)="availablePlot(plot)"
+                     class="waves-effect m-0 btn btn-sm btn-info" >Available</button>
+                     <span *ngIf="plot.availabilityStatus == 'DELIVERED'" class="badge badge-danger">Delivered</span>
+                </span>
+            </div>
+            <div class="card-body card-height">
+               <div *ngIf="plot.availabilityStatus == 'AVAILABLE'"> Availability : <span class="text-info"> Available</span></div>
+               <div *ngIf="plot.availabilityStatus == 'BOOKED'"> Availability : <span class="text-warning"> Booked</span></div>
+               <div *ngIf="plot.availabilityStatus == 'DELIVERED'"> Availability : <span class="text-success"> Delivered</span></div>
+               <div *ngIf="plot.availabilityStatus == 'CANCELLED'"> Availability : <span class="text-danger"> Canceled</span></div>
+               <div *ngIf="plot.discountType == 'PERCENTAGE'"> Discount Type : <span> Percentage</span></div>
+               <div *ngIf="plot.discountType == 'FIXED_PRICE'"> Discount Type : <span> Fixed Price</span></div>
+               <div > Discount Value : <span> {{plot.discountValue}}</span></div>
+               <div > Sale Price : <span> {{plot.salePrice}}</span></div>
+               <div class="accordion md-accordion" id="accrd" role="tablist" aria-multiselectable="true">
+                    <div class="card"  *ngIf="plot.bookedDataRecord">
+                        <div class="card-header pl-0 p-2" role="tab" id="headingOne1">
+                        <a class="accr-heared" data-toggle="collapse" data-parent="#accrd" href="#booking{{plot.plotId}}" aria-expanded="true"
+                            aria-controls="booking{{plot.plotId}}">
+                            <span class="mb-0"> Booked Record <i class="fas fa-angle-down rotate-icon"></i> </span>
+                        </a>
+                        </div>
+                        <div id="booking{{plot.plotId}}" class="collapse" role="tabpanel" aria-labelledby="headingOne1"
+                        data-parent="#accrd">
+                        <div class="card-body cardBody p-0 pl-2">
+                                <div> Booked By : <span class="text-info"> {{plot.bookedDataRecord.bookedBy}}</span></div>
+                                <div> Booked To : <span class="text-info"> {{plot.bookedDataRecord.bookedTo}}</span></div>
+                                <div> Booking Date : <span class="text-info"> {{plot.bookedDataRecord.bookingDate}}</span></div>
+                                <div> Booking Price : <span class="text-info"> {{plot.bookedDataRecord.bookingPrice}}</span></div>
+                                <div> Expected Registry Date : <span class="text-info"> {{plot.bookedDataRecord.expectedRegistryDate}}</span></div>
+                                <div> Mode Of Payment : <span class="text-info"> {{plot.bookedDataRecord.modeOfPayment}}</span></div>
+                                <div> Payment Ref Id : <span class="text-info"> {{plot.bookedDataRecord.paymentRefId}}</span></div>
+                                <div *ngIf="plot.bookedDataRecord.comments"> Comments : 
+                                    <span class="text-info"> {{plot.bookedDataRecord.comments}}</span></div>
+                                <!-- <div class="row" *ngIf="plot.bookedDataRecord.bookingFiles.length">
+                                    <div class="col-12 text-left mb-2 m-1">
+                                        <span><b>Booking Files</b></span>
+                                    </div>
+                                    <div class="col-3" *ngFor="let url of plot.bookedDataRecord.bookingFiles">
+                                        <img class="lightbox-img" (click)="opemLightBox(url)" src="{{url}}" alt="docRequired">
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" *ngIf="plot.cancelledDataRecord">
+                            <div class="card-header pl-0 p-2" role="tab" id="headingTwo2">
+                        <a class="collapsed accr-heared" data-toggle="collapse" data-parent="#accrd" href="#cancel{{plot.plotId}}"
+                            aria-expanded="false" aria-controls="cancel{{plot.plotId}}">
+                            <span class="mb-0"> Cancel Record <i class="fas fa-angle-down rotate-icon"></i></span>
+                        </a>
+                        </div>
+                        <div id="cancel{{plot.plotId}}" class="collapse" role="tabpanel" aria-labelledby="headingTwo2"
+                        data-parent="#accrd">
+                        <div class="card-body cardBody p-0 pl-2">
+                                <div *ngIf="plot.cancelledDataRecord.cancelledDate"> Cancelled Date : <span> {{plot.cancelledDataRecord.cancelledDate}}</span></div>
+                                <div *ngIf="plot.cancelledDataRecord.comments"> Comments : <span> {{plot.cancelledDataRecord.comments}}</span></div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="card"  *ngIf="plot.deliveredDataRecord">
+                            <div class="card-header cardBody pl-0 p-2" role="tab" id="headingTwo3">
+                        <a class="collapsed accr-heared" data-toggle="collapse" data-parent="#accrd" href="#del{{plot.plotId}}"
+                            aria-expanded="false" aria-controls="del{{plot.plotId}}">
+                            <span class="mb-0"> Delivered Record <i class="fas fa-angle-down rotate-icon"></i></span>
+                        </a>
+                        </div>
+                        <div id="del{{plot.plotId}}" class="collapse" role="tabpanel" aria-labelledby="headingTwo3"
+                        data-parent="#accrd">
+                        <div class="card-body cardBody p-0 pl-2">
+                            <div> Booking Date : <span class="text-info"> {{plot.deliveredDataRecord.bookingDate}}</span></div>
+                            <div> Contact By : <span class="text-info"> {{plot.deliveredDataRecord.deedPreparedBY}}</span></div>
+                            <div> Khata Number : <span class="text-info"> {{plot.deliveredDataRecord.khataNumber}}</span></div>
+                            <div> Khesra Number : <span class="text-info"> {{plot.deliveredDataRecord.khesraNumber}}</span></div>
+                            <div> Map Location : <span class="text-info"> {{plot.deliveredDataRecord.locationOnMap}}</span></div>
+                            <div> Mode Of Payment : <span class="text-info"> {{plot.deliveredDataRecord.modeOfPayment}}</span></div>
+                            <div> Payment Ref Id : <span class="text-info"> {{plot.deliveredDataRecord.paymentRefId}}</span></div>
+                            <div> Registry Date : <span class="text-info"> {{plot.deliveredDataRecord.registryDate}}</span></div>
+                            <div> Sale Deed Price : <span class="text-info"> {{plot.deliveredDataRecord.saleDeedPrice}}</span></div>
+                            <div *ngIf="plot.deliveredDataRecord.comments"> Comments : 
+                                <span class="text-info"> {{plot.deliveredDataRecord.comments}}</span></div>
+                            <!-- <div class="row" *ngIf="plot.deliveredDataRecord.registryDocuments.length">
+                                <div class="col-12 text-left mb-2 m-1">
+                                    <span><b>Registry Documents</b></span>
+                                </div>
+                                <div class="col-3" *ngFor="let url of plot.deliveredDataRecord.registryDocuments">
+                                    <img class="lightbox-img" (click)="opemLightBox(url)" src="{{url}}" alt="docRequired">
+                                </div>
+                            </div> -->
+                        </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="bookModal" tabindex="-1" role="dialog" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" >Add Booking Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span style="font-size: 25px;" aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form [formGroup]="bookedDataRecordFormGroup">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <mat-form-field >
+                            <input matInput placeholder="Book By" formControlName="bookedBy"
+                            [(ngModel)]="bookedDataRecord.bookedBy" [ngModelOptions]="{standalone: true}" required>
+                        </mat-form-field>    
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field >
+                            <input matInput placeholder="Book To" formControlName="bookedTo"
+                            [(ngModel)]="bookedDataRecord.bookedTo" [ngModelOptions]="{standalone: true}" required>
+                        </mat-form-field> 
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field >
+                            <input matInput [matDatepicker]="_bookingDate" placeholder="Booking Date" formControlName="bookingDate"
+                            [(ngModel)]="bookedDataRecord.bookingDate"[ngModelOptions]="{standalone: true}" required>
+                            <mat-datepicker-toggle matSuffix [for]="_bookingDate"></mat-datepicker-toggle>
+                            <mat-datepicker #_bookingDate></mat-datepicker>
+                        </mat-form-field>
+                    </div> 
+                    <div class="col-md-6">
+                            <mat-form-field >
+                                <input matInput [matDatepicker]="_expectedRegistryDate" placeholder="Expected Registry Date" formControlName="expectedRegistryDate"
+                                [(ngModel)]="bookedDataRecord.expectedRegistryDate"[ngModelOptions]="{standalone: true}" required>
+                                <mat-datepicker-toggle matSuffix [for]="_expectedRegistryDate"></mat-datepicker-toggle>
+                                <mat-datepicker #_expectedRegistryDate></mat-datepicker>
+                            </mat-form-field>
+                        </div>  
+                    <div class="col-md-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Booking Price" formControlName="bookingPrice"
+                            [(ngModel)]="bookedDataRecord.bookingPrice" [ngModelOptions]="{standalone: true}" required>
+                        </mat-form-field>    
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field >
+                            <input matInput placeholder="Mode of Payment" formControlName="modeOfPayment"
+                            [(ngModel)]="bookedDataRecord.modeOfPayment" [ngModelOptions]="{standalone: true}" required>
+                        </mat-form-field> 
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field >
+                            <input matInput placeholder="Payment Reference Id" formControlName="paymentRefId"
+                            [(ngModel)]="bookedDataRecord.paymentRefId" [ngModelOptions]="{standalone: true}" required>
+                        </mat-form-field> 
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field>
+                            <textarea matInput placeholder="Comment (Optional )"
+                            [(ngModel)]="bookedDataRecord.comments" [ngModelOptions]="{standalone: true}"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <!-- <div class="col-md-6">
+                            <div class="md-form m-0">
+                                <div class="file-field">
+                                <a class="btn-floating purple-gradient mt-0 float-left" matTooltip="Project Blue Print" matTooltipPosition="above">
+                                    <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                                    <input type="file"multiple (change)="onFileSelected($event, 'book')"accept="image/x-png,image/gif,image/jpeg">
+                                </a>
+                                <div class="file-path-wrapper">
+                                    <button type="button" (click)="uploadFiles('book')" class="btn btn-info btn-sm">
+                                        Upload File
+                                    </button>
+                                </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-md-12">
+                        <div class="row" *ngIf="bookingFiles.length">
+                            <div class="col-md-3 col-4" *ngFor="let file of bookingFiles">
+                                <label class="img-label" *ngIf="file.type !='application/pdf'">
+                                <a class="remove-file" (click)="removeFile(file, 'book')"  matTooltip="Remove"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </a>
+                                <i *ngIf="file.fileUrl" matTooltip="File Uploaded" class="fa fa-check-square-o fileStatus" aria-hidden="true"></i>
+                                <i *ngIf="!file.fileUrl" matTooltip="Click Upload Button to Upload" class="fa fa-cloud-upload fileStatus" aria-hidden="true"></i>
+                                <img src="{{file.url || file.fileUrl}}" alt="bookingFiles" >
+                                </label>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>        
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                <button (click)="bookPlot()" class="btn btn-sm btn-primary">Book Plot</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+ <div class="modal fade" id="deliverModal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Delivrer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span style="font-size: 25px;" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="deliveredDataRecordFormGroup">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field >
+                                <mat-select placeholder="Mutation Status" [(ngModel)]="deliveredDataRecord.mutationStatus"
+                                [ngModelOptions]="{standalone: true}"  required>
+                                    <mat-option value="0">DONE</mat-option>
+                                    <mat-option value="1">PENDING</mat-option>
+                                </mat-select>
+                            </mat-form-field> 
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field >
+                                <input matInput [matDatepicker]="__bookingDate" placeholder="Booking Date" formControlName="bookingDate"
+                                [(ngModel)]="deliveredDataRecord.bookingDate"[ngModelOptions]="{standalone: true}" required>
+                                <mat-datepicker-toggle matSuffix [for]="__bookingDate"></mat-datepicker-toggle>
+                                <mat-datepicker #__bookingDate></mat-datepicker>
+                            </mat-form-field>
+                        </div> 
+                        <div class="col-md-6">
+                            <mat-form-field >
+                                <input matInput [matDatepicker]="_registryDate" placeholder="Registry Date" formControlName="registryDate"
+                                [(ngModel)]="deliveredDataRecord.registryDate"[ngModelOptions]="{standalone: true}" required>
+                                <mat-datepicker-toggle matSuffix [for]="_registryDate"></mat-datepicker-toggle>
+                                <mat-datepicker #_registryDate></mat-datepicker>
+                            </mat-form-field>
+                        </div> 
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput placeholder="Mode Of Payment" formControlName="modeOfPayment"
+                                [(ngModel)]="deliveredDataRecord.modeOfPayment" [ngModelOptions]="{standalone: true}" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field >
+                                <input matInput placeholder="Payment Reference Id" formControlName="paymentRefId"
+                                [(ngModel)]="deliveredDataRecord.paymentRefId" [ngModelOptions]="{standalone: true}" required>
+                            </mat-form-field> 
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput placeholder="Sale Deed Price" formControlName="saleDeedPrice"
+                                [(ngModel)]="deliveredDataRecord.saleDeedPrice" [ngModelOptions]="{standalone: true}" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput placeholder="Contact Created By" formControlName="deedPreparedBY"
+                                [(ngModel)]="deliveredDataRecord.deedPreparedBY" [ngModelOptions]="{standalone: true}" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field >
+                                <input matInput placeholder="Khata Number" formControlName="khataNumber"
+                                [(ngModel)]="deliveredDataRecord.khataNumber" [ngModelOptions]="{standalone: true}" required>
+                            </mat-form-field> 
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput placeholder="Khesra Number" formControlName="khesraNumber"
+                                [(ngModel)]="deliveredDataRecord.khesraNumber" [ngModelOptions]="{standalone: true}" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field >
+                                <input matInput placeholder="Rakwa" formControlName="rakwa"
+                                [(ngModel)]="deliveredDataRecord.rakwa" [ngModelOptions]="{standalone: true}" required>
+                            </mat-form-field> 
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field >
+                                <input matInput placeholder="Location On Map" formControlName="locationOnMap"
+                                [(ngModel)]="deliveredDataRecord.locationOnMap" [ngModelOptions]="{standalone: true}" required>
+                            </mat-form-field> 
+                        </div>
+                        <!-- <div class="col-md-6">
+                                <div class="md-form m-0">
+                                    <div class="file-field">
+                                    <a class="btn-floating purple-gradient mt-0 float-left" matTooltip="Project Blue Print" matTooltipPosition="above">
+                                        <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                                        <input type="file"multiple (change)="onFileSelected($event, 'del')"accept="image/x-png,image/gif,image/jpeg">
+                                    </a>
+                                    <div class="file-path-wrapper">
+                                        <button (click)="uploadFiles('del')" class="btn btn-info btn-sm">
+                                            Upload File
+                                            </button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- <div class="col-md-12">
+                            <div class="row" *ngIf="registryDocuments.length">
+                                <div class="col-md-2 col-4" *ngFor="let file of registryDocuments">
+                                    <label class="img-label" *ngIf="file.type !='application/pdf'">
+                                    <a class="remove-file" (click)="removeFile(file,'del')"  matTooltip="Remove"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </a>
+                                    <i *ngIf="file.fileUrl" matTooltip="File Uploaded" class="fa fa-check-square-o fileStatus" aria-hidden="true"></i>
+                                    <i *ngIf="!file.fileUrl" matTooltip="Click Upload Button to Upload" class="fa fa-cloud-upload fileStatus" aria-hidden="true"></i>
+                                    <img src="{{file.url || file.fileUrl}}" alt="registryDocuments" >
+                                    </label>
+                                </div>
+                            </div>
+                            </div> -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                    <button (click)="deliverPlot()" class="btn btn-sm btn-primary">Deliver Plot</button>
+                </div>
+            </form>
+            </div>
+        </div>
+</div> 
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" >Cancel</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span style="font-size: 25px;" aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form [formGroup]="cancelledDateFormGroup">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <mat-form-field >
+                            <input matInput [matDatepicker]="_cancelledDate" placeholder="Cancel Date" formControlName="cancelledDate"
+                            [(ngModel)]="cancelledDataRecord.cancelledDate"[ngModelOptions]="{standalone: true}" required>
+                            <mat-datepicker-toggle matSuffix [for]="_cancelledDate"></mat-datepicker-toggle>
+                            <mat-datepicker #_cancelledDate></mat-datepicker>
+                        </mat-form-field>
+                    </div> 
+                    <div class="col-12">
+                        <mat-form-field>
+                            <textarea matInput placeholder="Comment" formControlName="comments" required
+                            [(ngModel)]="cancelledDataRecord.comments" [ngModelOptions]="{standalone: true}"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                <button (click)="cancelPlot()" class="btn btn-sm btn-primary">Cancel Plot</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div> 
+<!-- <div class="modal fade" id="lightBox" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <button type="button" class="close button2" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" class="white-text">&times;</span>
+            </button>
+        <div class="modal-body d-block text-center">
+            <img class="w-100" src="{{imgUrl}}" alt="doc required">
+        </div>
+    </div>
+    </div>
+</div> -->
+<a id="fileAlreadyUp" onclick="toastr.warning(`File Aready Uploaded`,``,{preventDuplicates: true});"></a>
+<a id="maxFileLimit" onclick="toastr.warning(`Maximum File Limit is 10`,``,{preventDuplicates: true});"></a>
+<a id="fileSizeError" onclick="toastr.warning(`File Size should be less than 5 MB !`);"></a>
+<a id="fileTypeError" onclick="toastr.warning(`File Type Should be images and pdf only.`);"></a>
+<a id="chooseFile" onclick="toastr.warning(`Choose Image File to Upload`,``,{preventDuplicates: true});"></a>
+<a id="uploadFileInfo" onclick="toastr.warning(`Please upload file first !`,``,{preventDuplicates: true});"></a>
+<a id="fileUpSuss" onclick="toastr.success(`File Uploaded Sucessfully`)"></a>
+<a id="formError" onclick="toastr.error('Please fill Form Correctly!!','',{preventDuplicates: true});"></a>

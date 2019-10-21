@@ -1,0 +1,79 @@
+<div id="slide-out" class="side-nav fixed">
+    <ul class="custom-scrollbar">
+        <li>
+            <div class="logo-wrapper waves-light">
+                <a [routerLink]="['/']" style="padding: 20px 10px; display: -webkit-box;">
+                  <img class="p-1" src="favicon.ico" alt="RME">
+                   <h4 class="m-2">DAPP</h4></a>
+            </div>
+        </li>
+        <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+  
+          <div class="card">
+            <div class="card-header waves-effect" role="tab" id="headingDmc">
+              <a data-toggle="collapse" data-parent="#accordionEx" href="#dmac" aria-expanded="true"
+                aria-controls="dmac">
+                <span class="mb-0">
+                  Data Management <i class="fas fa-angle-down rotate-icon"></i>
+                </span>
+              </a>
+            </div>
+        
+            <div id="dmac" class="collapse" role="tabpanel" aria-labelledby="headingDmc"
+              data-parent="#accordionEx">
+                  <ul class="list-unstyled">
+                      <li  *ngIf="isDMC" ><a (click)="letSee()" [routerLink]="['/dapp/datamanagement/databank']" class="waves-effect">Data Bank</a>
+                      </li>
+                      <li><a (click)="letSee()" [routerLink]="['/dapp/datamanagement/datarequest']" class="waves-effect">Data Request</a>
+                      </li>
+                      <li><a (click)="letSee()" [routerLink]="['/dapp/datamanagement/shareddata']" class="waves-effect">Shared Data</a>
+                      </li>
+                  </ul>
+            </div>
+        
+          </div>
+          <div class="card">
+                  <div class="card-header waves-effect" role="tab" id="headingOne2">
+                    <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne2" aria-expanded="true"
+                      aria-controls="collapseOne2">
+                      <span class="mb-0">
+                        Team Management <i class="fas fa-angle-down rotate-icon"></i>
+                      </span>
+                    </a>
+                  </div>
+              
+                  <div id="collapseOne2" class="collapse" role="tabpanel" aria-labelledby="headingOne2"
+                    data-parent="#accordionEx">
+                        <ul class="list-unstyled">
+                            <li><a (click)="letSee()" [routerLink]="['/dapp/team-management/add']" class="waves-effect">Add Team</a>
+                            </li>
+                            <li><a (click)="letSee()" [routerLink]="['/dapp/team-management/my-team']" class="waves-effect">My Team</a>
+                            </li>
+                        </ul>
+                  </div>
+          </div>  
+          <div class="card">
+            <div class="card-header waves-effect" role="tab" id="headingProject">
+              <a data-toggle="collapse" data-parent="#accordionEx" href="#project" aria-expanded="true"
+                aria-controls="project">
+                <span class="mb-0">
+                  Project Management <i class="fas fa-angle-down rotate-icon"></i>
+                </span>
+              </a>
+            </div>
+        
+            <div id="project" class="collapse" role="tabpanel" aria-labelledby="headingProject"
+              data-parent="#accordionEx">
+                  <ul class="list-unstyled">
+                      <li><a (click)="addProject()" [routerLink]="['/dapp/project-management/add-project']" class="waves-effect">Add Project</a>
+                      </li>
+                      <li><a (click)="letSee()" [routerLink]="['/dapp/project-management/my-project']" class="waves-effect">My Project</a>
+                      <li><a (click)="letSee()"[routerLink]="['/dapp/project-management/initiate-project']" class="waves-effect">Initiate a Project</a>
+                      </li>
+                  </ul>
+            </div>
+    </div>           
+        </div>
+    </ul>
+    <div class="sidenav-bg mask-strong"></div>
+  </div>

@@ -1,0 +1,134 @@
+<div *ngIf="isLoading" class="overlay">
+  <em class="loadTitle">Loading...</em>
+  <div class="spinner-grow" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
+<!-- <app-tree-data [data]="data" [node]="data" (click)="receiveMessage($event)"></app-tree-data> -->
+<div class="row" *ngIf="!pendingProjectInfo.length">
+  <div class="col-12 p-0">
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          You don't have any <strong>Project</strong> yet.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3 pl-sm-auto pl-md-0 mt-2">
+    <div class="card waves-effect">
+      <div class="card-body">
+        <a (click)="routToAddproject()">
+          <div class="row">
+            <div class="col-6">
+              <img class="card-img-top" src="assets/images/addproject.png" alt="Card image cap">
+            </div>
+            <div class="col-6 pt-4">
+              <span>Add Project</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 pl-sm-auto pl-md-0 mt-2">
+    <div class="card waves-effect">
+      <div class="card-body">
+        <a (click)="routToViewAllproject()">
+          <div class="row">
+            <div class="col-6">
+              <img class="card-img-top" src="assets/images/project.png" alt="Card image cap">
+            </div>
+            <div class="col-6 pt-4">
+              <span>My Project</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 pl-sm-auto pl-md-0 mt-2" *ngIf="pendingProjectInfo.length">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6 pt-4">
+            <span> Pending Project </span>
+          </div>
+        </div>
+        <div class="">
+          <mat-form-field>
+            <mat-label>View Pending Projects</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let pendingP of pendingProjectInfo" [value]="pendingP.projectId">
+                <div class="" (click)="pendingProject(pendingP)">
+                  <span>{{pendingP.projectName}}</span>
+                  <span class="pull-right">Step {{pendingP.step}}</span>
+                </div>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- <div class="step4">
+    <div class="row" *ngIf="myTeam">
+        <div class="col-md-6">
+          <mat-form-field>
+            <mat-select name="a" placeholder="Broking Consultant" (selectionChange)="someMethod($event.value,'b')" multiple required>
+              <mat-option (click)="clickTo()" *ngFor="let member of myTeam" [value]="member">{{member.fullName}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field>
+            <mat-select placeholder="Data Management Consultant" (selectionChange)="someMethod($event.value,'a')" name="b" multiple required>
+              <mat-option *ngFor="let mem of myTeam1" [value]="mem">{{mem.fullName}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+    </div>
+   <div class="row">
+      <div class="col-md-6 max-height" *ngIf="selectedBrokingConsultant">
+        <div class="" *ngIf="selectedBrokingConsultant.length">
+          <div class="bgray pb-0" *ngFor="let bC of selectedBrokingConsultant; let i=index;">
+            <span>{{i+1}}. Enter Details of {{bC.fullName}}</span>
+              <div class="row" >
+                  <div class="col-md-6">
+                      <mat-form-field>
+                        <input matInput placeholder="Incentive Value" name="{{bC._id}}"
+                        [(ngModel)]="bC._id" [ngModelOptions]="{standalone: true}" required>
+                      </mat-form-field>
+                    </div>   
+                </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 max-height"  *ngIf="selectedDataManagConsultant">
+        <div class="" *ngIf="selectedDataManagConsultant.length">
+            <div class="bgray pb-0" *ngFor="let dmc of selectedDataManagConsultant; let i=index;">
+             <span>{{i+1}}. Enter Details of {{dmc.fullName}}</span>
+              <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field>
+                      <input matInput placeholder="Incentive Value" name="{{dmc._id}}"
+                      [(ngModel)]="dmc._id" [ngModelOptions]="{standalone: true}" required>
+                    </mat-form-field>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div> -->
+
+<!-- <button (click)="toggle()">Other</button>
+  <span  (click)="addMore()" *ngIf="array.length">+</span>
+  <div *ngFor="let obj of array">
+    <input type="text" [(ngModel)]="obj.value">
+    <span (click)="remove(obj)">-</span>
+  </div> -->

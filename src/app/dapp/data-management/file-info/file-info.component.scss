@@ -1,0 +1,40 @@
+:host
+::ng-deep ng2-smart-table table tr td {
+    border: 1px solid #342e7352;
+}
+:host
+::ng-deep ng2-smart-table table tr th {
+    border: 1px solid  #342e7352;
+}
+
+:host ::ng-deep ng2-smart-table table tbody tr:nth-child(even) {
+    background: white!important;
+}
+:host ::ng-deep ng2-smart-table table tbody tr:nth-child(odd) {
+background:#4285f461 !important;
+}
+:host ::ng-deep ng2-smart-table .ng2-smart-filters {
+    display: none;
+}
+._search{
+    margin: 5px 0px;
+}
+._search label{
+    margin-left: 12px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

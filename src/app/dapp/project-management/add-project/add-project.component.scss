@@ -1,0 +1,140 @@
+mat-form-field{
+    width: 100% !important;
+  }
+  .userone{
+    padding: 5px;
+    border: 1px solid rgb(214, 213, 213);
+    border-radius: 5px;
+    margin-top: 2px;
+  } 
+  .mt_15{
+      margin-top: -15px !important;
+  }
+  agm-map {
+    height: 290px;
+    // margin: 20px;
+  }
+  .my-loc{
+    position: absolute;
+    right: 0px;
+    top: 2px;
+    padding: 0px;
+  }
+  .my-loc img{
+   height: 25px;
+  }
+  .map{
+    box-shadow: 1px 1px 10px 3px #e8e7e730;
+  }
+  mat-spinner {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+  
+  .additional-selection {
+    opacity: 0.75;
+    font-size: 0.75em;
+  }
+  .btn-group.radio-group {
+    z-index: 999;
+    position: absolute;
+    bottom: 0;
+    left: 7px;
+  }
+  .btn-group.radio-group label{
+    cursor: pointer;
+    
+  }
+  
+  label.product_add {
+    background-color: #ef9d22;
+    border-radius: 5px 0 0 5px;
+    padding: 4px 10px;
+  }
+  
+  label.product_sub {
+    background-color: #ccc;
+    border-radius:  0 5px 5px 0;
+    padding: 4px 10px;
+  }
+  .direction >label{
+    width: 100%;
+    height: 100px;
+  }
+  .direction-img{
+    width: 100px;
+    margin-top: 5px;
+  }
+  .direction-div{
+    display: block;
+    text-align: center;
+  }
+  .bgray{
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 2px;
+  }
+  .inentory{
+    max-height: 600px;
+    overflow: auto;
+  }
+  .max-height{
+    max-height: 250px;
+    overflow: auto;
+  }
+  .adMoreInvt{
+    position: absolute;
+      top: 10px;
+      right: 25px;
+  }
+  .adMoreInvt i{
+    font-size: 25px;
+    color: #4285f4;
+  }
+  .removeInvt{
+    position: absolute;
+      top: 10px;
+      right: 30px;
+  }
+  .removeInvt i{
+    font-size: 20px;
+    color: #4285f4;
+  }
+  .img-label img{
+    height: 100px;
+    width: 100%;
+  }
+  .pdf-label i{
+    display: block;
+    font-size: 90px;
+    color: #d86548;
+  }
+  .remove-file{
+    position: absolute;
+    top: 5px;
+    right: 20px;
+  }
+  .remove-file i{
+    font-size: 20px;
+    color: rgb(247, 71, 71);
+  }
+  .fileStatus{
+    position: absolute;
+    top: 5px;
+    right: 40px;
+    font-size: 20px !important;
+    color: #4285f4
+  }
+ 
+:host
+    ::mat-horizontal-stepper mat-step-header {
+        display: block !important;
+    }
+    .mat-step-header{
+      display: block !important;
+    }
+:host
+    ::mat-checkbox label{
+  margin-top: 10px;
+}

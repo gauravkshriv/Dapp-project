@@ -1,0 +1,34 @@
+// @import '../../node_modules/sweetalert2/src/sweetalert2.scss';
+@import '../../node_modules/sweetalert2/dist/sweetalert2.css';
+
+
+.dropdown.show .dropdown-menu{opacity: 1;}
+ol.breadcrumb.text-right {
+    padding: 5px;
+    margin: 5px;
+    font-size: 15px;
+    font-weight: 400;
+    background: none;
+}
+.breadcrumbs{
+    border: 1px solid gray;
+    margin-top: -22px;
+    margin-bottom: 10px;
+}
+ol.breadcrumb {
+    box-shadow: 2px 2px 5px 2px #f9f0f0a8;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+}
+li.breadcrumb-item {
+    margin: 5px 0px;
+}
+.col{
+    padding: 0;
+}
+// .breadcrumb-item{
+//     background-color: rgba(243, 241, 239, 0.356)
+// }
+// .breadcrumb-item.active{
+//     background-color: none;
+// }

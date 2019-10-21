@@ -1,0 +1,88 @@
+<div *ngIf="isLoading" class="overlay">
+    <em class="loadTitle">Loading...</em>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+      </div>
+</div>
+<div class="row">
+    <div class="card w-100">
+        <div class="card-body" style="text-align: left;">
+            <div class="row" *ngIf="requsetInfo">
+              <div class="col-sm-12 col-md-6">
+                  <ul class="list-group list-group-flush" >
+                      <li class="list-group-item">Request ID :      <span>  {{requsetInfo.requestId}}  </span>  </li>
+                      <li class="list-group-item">Request Price :      <span>  {{requsetInfo.requestPrice}}  </span>  </li>
+                      <li class="list-group-item">Share Percent :      <span>  {{requsetInfo.sharePercent}}  </span>  </li>
+                      <li class="list-group-item">Share Type :      <span>  {{requsetInfo.shareType}}  </span>  </li>
+                  </ul>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                  <ul class="list-group list-group-flush" >
+                      <li class="list-group-item">Data Type :      <span>  {{requsetInfo.dataType.dataType}}  </span>  </li>
+                      <li class="list-group-item">Data Purpose :      <span>  {{requsetInfo.dataPurpose.dataPurpose}}  </span>  </li>
+                      <li class="list-group-item">Data Request Status :      <span>  {{requsetInfo.dataRequestStatus}}  </span>  </li>
+                      <li class="list-group-item">Data Count :      <span>  {{requsetInfo.dataCount}}  </span>  </li>
+                  </ul>
+              </div>        
+            </div>
+            <hr>
+            <div class="row">
+                <div class="rare-wind-gradient chat-room w-100">
+                    <div class="card-body">
+                      <div class="row px-lg-2 px-2">
+                        <div class="px-lg-auto px-0 w-100">
+                          <div class="chat-message">
+                              <div class="white">
+                                <div class="form-group basic-textarea">
+                                  <textarea class="form-control pl-2 my-0" (keyup.enter)="sendComment()" name="commentInput" [(ngModel)]="commentInput"   rows="3" placeholder="Type your comment here..."></textarea>
+                                </div>
+                              </div>
+                              <button  [disabled]="sendBtnValue === 'Sending..'" (click)="sendComment()" class="btn btn-sm btn-success btn-rounded">
+                                  <span class="spinner-border-sm" [ngClass]="{'spinner-border': sendBtnValue === 'Sending..' }" 
+                                  role="status" aria-hidden="true"></span>{{sendBtnValue}}</button>        
+                            <ul class="list-unstyled chat-1 pr-2 scrollbar-light-blue">
+                              <li class="mb-2" *ngFor="let comment of comments">
+                                <div class="d-flex justify-content-between"  *ngIf="comment.uuid === myUuid; else other_content">
+                                    <img width="80" height="80" src="assets/images/img_avatar_he.png" alt="avatar" class="avatar rounded-circle mr-2 ml-lg-3 ml-0 z-depth-1">
+                                    <div class="chat-body white p-3 u-l z-depth-1 w-100">
+                                      <div class="header">
+                                        <strong class="primary-font">{{comment.name}}</strong>
+                                        <small class="pull-right text-muted"><i class="far fa-clock"></i> {{comment.created}}</small>
+                                      </div>
+                                      <hr class="w-100">
+                                      <p class="mb-0 w-100">
+                                       {{comment.msg}}
+                                      </p>
+                                    </div>
+                                </div>
+                                <ng-template #other_content>
+                                <div class="d-flex justify-content-between">
+                                    <div class="chat-body white u-r p-3 z-depth-1 w-100">
+                                        <div class="header">
+                                          <strong class="primary-font float-right">{{comment.name}}</strong>
+                                          <small class="text-muted"><i class="far fa-clock"></i> {{comment.created}}</small>
+                                        </div>
+                                        <hr class="w-100">
+                                        <p class="mb-0 float-right w-100">
+                                            {{comment.msg}}
+                                        </p>
+                                      </div>
+                                      <img width="80" height="80" src="assets/images/img_avatar_she.png" alt="avatar" class="avatar rounded-circle mr-0 ml-3 z-depth-1">
+                                </div></ng-template>
+                              </li>
+                             
+                            </ul>
+                          </div>
+                  
+                        </div>
+                        <!-- Grid column -->
+                  
+                      </div>
+                      <!-- Grid row -->
+                  
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>

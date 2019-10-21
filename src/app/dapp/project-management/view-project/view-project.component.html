@@ -1,0 +1,1139 @@
+<div *ngIf="isLoading" class="overlay">
+    <em class="loadTitle">Loading...</em>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+        </div>
+</div>
+<div class="row">
+    <div class="col-md-4 pl-sm-auto pl-md-0 mt-2">
+        <div class="card min-h-250">
+                <div class="card-header">
+                    <a class="text-info" (click)="viewTab(0)"><span>Project Information</span></a> 
+                    <a class="float-right p-2 m-t-7" matTooltip="View More Info" (click)="viewTab(0)"><i class="fa fa-info-circle"></i></a>
+                    <a class="float-right p-2 m-t-7" matTooltip="Edit Project Inventory" (click)="projectInfoEdit(1)"><i class="fa fa-edit"></i></a>
+                </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <img class="card-img-top" src="assets/images/project.png" alt="Card image cap">
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="col-8" *ngIf="projectInfo">
+                        <div class="mt-2"><div>Title
+                            <span> : {{projectInfo.projectName}}</span><mat-divider></mat-divider>
+                            </div>
+                        </div>
+                        <div class="mt-2"><div>Type
+                            <span> : {{projectInfo.projectType}}</span><mat-divider></mat-divider>
+                            </div>
+                        </div>
+                        <div class="mt-2"><div>Location 
+                            <span> : {{projectInfo.location.city}} {{projectInfo.location.state}}</span><mat-divider></mat-divider>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 pl-sm-auto pl-md-0 mt-2">
+            <div class="card min-h-250">
+                    <div class="card-header">
+                        <a class="text-info" (click)="viewTab(1)"><span>Project Inventory</span></a> 
+                        <a class="float-right p-2 m-t-7" matTooltip="View More Info" (click)="viewTab(1)"><i class="fa fa-info-circle"></i></a>
+                        <a class="float-right p-2 m-t-7" matTooltip="Edit Project Inventory" (click)="projectInfoEdit(2)"><i class="fa fa-edit"></i></a>
+                    </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <img class="card-img-top" src="assets/images/inventory.png" alt="Card image cap">
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="col-8" *ngIf="inventoryInfo; else noInventory">
+                            <div class="mt-2"><div>Property Type
+                                <span> : {{inventoryInfo.propertyType}}</span><mat-divider></mat-divider>
+                                </div>
+                            </div>
+                            <div class="mt-2"><div>Facilities 
+                                <span> : {{inventoryInfo._facilites}}</span><mat-divider></mat-divider>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-template class="mt-2" #noInventory>Inventory Information Not Available
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button (click)="completeProjectStep()" class="btn btn-sm btn-info">
+                                            Add Inventory
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 pl-sm-auto pl-md-0 mt-2">
+                <div class="card min-h-250">
+                        <div class="card-header">
+                            <a class="text-info" (click)="viewTab(2)"><span>Project Financial</span></a> 
+                            <a class="float-right p-2 m-t-7" matTooltip="View More Info" (click)="viewTab(2)"><i class="fa fa-info-circle"></i></a>
+                            <a class="float-right p-2 m-t-7" matTooltip="Edit Project Financial" (click)="projectInfoEdit(3)"><i class="fa fa-edit"></i></a>
+                        </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <img class="card-img-top" src="assets/images/transaction.png" alt="Card image cap">
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div class="col-8" *ngIf="incentive; else noIncentive">
+                                <div class="mt-2"><div>Incentive In<span> : {{incentive.incentiveIn}}
+                                    </span><mat-divider></mat-divider> </div>
+                                    </div>
+                                    <div class="mt-2"><div>Incentive Out<span> : {{incentive.incentiveOut}}</span><mat-divider></mat-divider>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <div>Inventory Count<span> : {{target.invcount}}</span><mat-divider></mat-divider>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <div matTooltip="Return Of Investment">ROI<span> : {{target.roi}}</span><mat-divider></mat-divider>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <div >Incentive Type<span> : {{incentive.incentiveType}}</span><mat-divider></mat-divider>
+                                        </div>
+                                    </div>
+                               
+                            </div>
+                            <ng-template #noIncentive> Incentive and Target are not available
+                                    <div class="col-12">
+                                        <button (click)="completeProjectStep()" class="btn btn-sm btn-info">
+                                            Add Incentive
+                                        </button>
+                                    </div>
+                                </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+            <div class="col-md-4 pl-sm-auto pl-md-0 mt-2">
+                <div class="card min-h-250">
+                    <div class="card-header">
+                            <a class="text-info" (click)="viewTab(3)"><span>Project Team</span></a> 
+                            <a class="float-right p-2 m-t-7" matTooltip="View More Info" (click)="viewTab(3)"><i class="fa fa-info-circle"></i></a>
+                            <a class="float-right p-2 m-t-7" matTooltip="Edit Project Team" (click)="projectInfoEdit(4)"><i class="fa fa-edit"></i></a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <img class="card-img-top" src="assets/images/team.png" alt="Card image cap">
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div class="col-8" *ngIf="projectTeam; else noTeam">
+                                <div class="mt-2"><div>Team Count
+                                            <button class="btn btn-sm btn-info"
+                                            matBadge="{{projectTeam.teamCount}}" (click)="viewTab(3)" matBadgePosition="before" matBadgeColor="primary">
+                                          View
+                                        </button>
+                                        <mat-divider></mat-divider>
+                                    </div>
+                                </div>
+                                <div class="mt-2"><div>Users<span> : {{projectTeam.users}}</span><mat-divider></mat-divider>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <ng-template #noTeam>Team and Task not Available
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button (click)="completeProjectStep()" class="btn btn-sm btn-info">
+                                                Add Team & Task
+                                            </button>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+</div>
+<!-- <div class="row">
+    <div class="col-md-12 p-0">
+            <mat-accordion >
+                <mat-expansion-panel expanded>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Project Information
+                    </mat-panel-title>
+                    <mat-panel-description class="d-block">
+                        <a class="btn btn-sm btn-secondary m-0 pull-right" (click)="projectInfoEdit(1)">Edit</a>
+                    </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="row appprojectview">
+                        <div class="col-md-12 mt-2" *ngIf="projectInfo">
+                                <div class="row status">
+                                    <div class="col-md-6"><div >Project Name<span> : {{projectInfo.projectName}}
+                                    </span><mat-divider></mat-divider></div>
+                                    </div>
+                                    <div class="col-md-6" *ngIf="projectInfo.projectDescription"><div>Project Description
+                                        <span> : {{projectInfo.projectDescription}}</span><mat-divider></mat-divider>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>Project Type<span> : {{projectInfo.projectType}}</span><mat-divider></mat-divider>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>Project Subtype<span> : {{projectInfo.projectSubType}}</span><mat-divider></mat-divider>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"  *ngIf="projectInfo.startDate">
+                                        <div>Project Start Date<span> : {{projectInfo.startDate}}</span><mat-divider></mat-divider>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>Created <span> : {{projectInfo.created}}</span><mat-divider></mat-divider>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>Last Updated<span> : {{projectInfo.updated}}</span><mat-divider></mat-divider>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 m-2"><b>Project Location</b></div>
+                                <div class="row status">
+                                <div class="col-md-6" *ngIf="projectInfo.projectDescription"><div>District
+                                    <span> : {{projectInfo.location.city}}</span><mat-divider></mat-divider>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>State<span> : {{projectInfo.location.state}}</span><mat-divider></mat-divider>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>Country<span> : {{projectInfo.location.country}}</span><mat-divider></mat-divider>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" *ngIf="projectInfo.location.village">
+                                    <div >Village<span> : {{projectInfo.location.village}}</span><mat-divider></mat-divider>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" *ngIf="projectInfo.location.landmark">
+                                    <div>Landmark<span> : {{projectInfo.location.landmark}}</span><mat-divider></mat-divider>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>Address Line 1<span> : {{projectInfo.location.addressLineOne}}</span><mat-divider></mat-divider>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" *ngIf="projectInfo.location.addressLineTwo">
+                                    <div>Address Line 2 <span> : {{projectInfo.location.addressLineTwo}}</span><mat-divider></mat-divider>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>Pin Code<span> : {{projectInfo.location.pincode}}</span><mat-divider></mat-divider>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div >Tehsil<span> : {{projectInfo.location.tehsil}}</span><mat-divider></mat-divider>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mb-2" *ngFor="let stake of projectInfo.STAKEHOLDERS">
+                                    <div class="card testimonial-card">
+                                        <div class="card-up indigo lighten-1"></div>
+                                        <div class="avatar mx-auto white">
+                                        <img src="assets/images/img_avatar_he.png" class="rounded-circle" alt="woman avatar">
+                                        </div>
+                                        <div class="card-body">
+                                        <h5 class="card-title">{{stake.fullName}}</h5>
+                                        <span class="d-block">{{stake.occ}}</span>
+                                        <p >Participation Type : {{stake.participationType}}</p>
+                                        </div>
+                                        <div class="card-footer text-muted text-center">
+                                            <span>Share Type :  Stakeholder</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-2" *ngFor="let benf of projectInfo.BENIFICIARIES">
+                                    <div class="card testimonial-card">
+                                        <div class="card-up special-color lighten-1"></div>
+                                        <div class="avatar mx-auto white">
+                                        <img src="assets/images/img_avatar_he.png" class="rounded-circle" alt="woman avatar">
+                                        </div>
+                                        <div class="card-body">
+                                        <h5 class="card-title">{{benf.fullName}}</h5>
+                                        <span class="d-block">{{benf.occ}}</span>
+                                        <p >Participation Type : {{benf.participationType}}</p>
+                                        </div>
+                                        <div class="card-footer text-muted text-center">
+                                        <span>Share Type :  Benificiary</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-2" *ngFor="let part of projectInfo.PARTICIPANTS">
+                                    <div class="card testimonial-card">
+                                        <div class="card-up aqua-gradient lighten-1"></div>
+                                        <div class="avatar mx-auto white">
+                                        <img src="assets/images/img_avatar_he.png" class="rounded-circle" alt="woman avatar">
+                                        </div>
+                                        <div class="card-body">
+                                        <h5 class="card-title">{{part.fullName}}</h5>
+                                        <span class="d-block">{{part.occ}}</span>
+                                        <p >Participation Type : {{part.participationType}}</p>
+                                        </div>
+                                        <div class="card-footer text-muted text-center">
+                                        <span>Share Type :  Paricipant</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel >
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                            Project Inventory
+                    </mat-panel-title>
+                    <mat-panel-description class="d-block">
+                        <a class="btn btn-sm btn-secondary m-0 pull-right" (click)="projectInfoEdit(2)">Edit</a>
+                    </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="inventory  mt-2">
+                            <div class="row appprojectview" *ngIf="inventoryInfo; else noInventory">
+                                    <div class="col-md-12" >
+                                        <div class="row status">
+                                            <div class="col-md-4"><div>Property Type<span> : {{inventoryInfo.propertyType}}
+                                            </span><mat-divider></mat-divider> </div>
+                                            </div>
+                                            <div class="col-md-4" *ngIf="inventoryInfo.brokerDiscount"><div>Broker Discount
+                                                <span> : {{inventoryInfo.brokerDiscount}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4" *ngIf="inventoryInfo.otherFacilities && inventoryInfo.otherFacilities !=''"><div>Other Facility
+                                                <span> : {{inventoryInfo.otherFacilities}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>  
+                                            <div class="col-md-6">
+                                                <div>Facility<span> : {{inventoryInfo._facilites}}</span>
+                                                    <a *ngIf="isMore" class="text-info" (click)="facilityMoreLess(40)">{{ moreLessValue}}</a> <mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div>Near By Location<span> : {{inventoryInfo._nearByLocation.join(', ')}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3 m-2"><b>Inventory Layout</b></div>
+                                        <div class="row status">
+                                            <div class="col-md-4 col-6">
+                                                <div>Service Road Size<span> : {{inventoryInfo.layoutDocument.serviceRoadSize.serviceRoadSizeValue}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-6">
+                                                <div>Main Entry Road Size <span> : {{inventoryInfo.layoutDocument.mainEntryRoadSize.mainEntryRoadSizeValue}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-6">
+                                                <div>Maximum Plot Size<span> : {{inventoryInfo.layoutDocument.maximumPlotSize}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-6">
+                                                <div>Minimum Plot Size<span> : {{inventoryInfo.layoutDocument.minimumPlotSize}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-6">
+                                                <div>Project Size Value<span> : {{inventoryInfo.layoutDocument.projectSizeValue}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-4 col-6">
+                                                <div >Layout Prepared By<span> : {{inventoryInfo.layoutDocument.layoutPreparedBy}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div>Project Size Unit<span> : {{inventoryInfo.layoutDocument.projectSizeUnit}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div>Approval Type<span> : {{inventoryInfo.layoutDocument.approvalType}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" *ngIf="inventoryInfo.layoutDocument.otherLayoutApproval"><div>Other Layout Approval
+                                            <span> : {{inventoryInfo.layoutDocument.otherLayoutApproval}}</span><mat-divider></mat-divider>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3 m-2"><b>Inventory Location</b></div>
+                                        <div class="row status">
+                                            <div class="col-md-4 col-6"><div>City
+                                                <span> : {{inventoryInfo.location.city}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-6"><div>District
+                                                <span> : {{inventoryInfo.location.district}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-6">
+                                                <div>Pin Code<span> : {{inventoryInfo.location.pincode}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-6">
+                                                <div >Tehsil<span> : {{inventoryInfo.location.tehsil}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-6">
+                                                <div>State<span> : {{inventoryInfo.location.state}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-6">
+                                                <div>Country<span> : {{inventoryInfo.location.country}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-6">
+                                                <div >Village<span> : {{inventoryInfo.location.village}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-6">
+                                                <div>Landmark<span> : {{inventoryInfo.location.landmark}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div>Address Line 1<span> : {{inventoryInfo.location.addressLineOne}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4" *ngIf="inventoryInfo.location.addressLineTwo">
+                                                <div>Address Line 2 <span> : {{inventoryInfo.location.addressLineTwo}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="col-md-4 mt-2" *ngFor="let ploting of plottingVariations; let i = index">
+                                    <div class="card" style="border-left: 1px solid #eaeaea;">
+                                            <div class="card-header" style="background-color: #ccc;">
+                                                <a class="text-info waves-effect" (click)="viewPlot(ploting)">
+                                                <span class="pull-left">Plot Information {{i+1}} </span></a>
+                                                <span class="pull-right">Inventory <span class="badge badge-primary ml-1">{{ploting.variationCount}} </span></span>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row status">
+                                                    <div class="col-6 pl-0 pr-0"><div>Dimension <span> : {{ploting.dimension}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 pl-0 pr-0">
+                                                        <div>Estimated Price<span> : {{ploting.estimatedPrice}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 pl-0 pr-0">
+                                                        <div>Variation Count<span> : {{ploting.variationCount}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 pl-0 pr-0">
+                                                        <div>Available<span> : {{ploting.alvblCount}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 pl-0 pr-0">
+                                                        <div>Booked<span> : {{ploting.bookedCount}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 pl-0 pr-0">
+                                                        <div>Delivered<span> : {{ploting.delvCount}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 pl-0 pr-0">
+                                                        <div>Canceled<span> : {{ploting.canceledCount}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <ng-template class="mt-2" #noInventory>Inventory Information Not Available
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button (click)="completeProjectStep()" class="btn btn-sm btn-info">
+                                            Add Inventory
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                    </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel  [disabled]="!inventoryInfo" >
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Project Financial
+                    </mat-panel-title>
+                    <mat-panel-description class="d-block">
+                        <a class="btn btn-sm btn-secondary m-0 pull-right" (click)="projectInfoEdit(3)">Edit</a>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="incentive">
+                        <div class="row appprojectview mt-2">
+                                <div class="col-md-12" *ngIf="incentive; else noIncentive">
+                                        <div class="card-body">
+                                                <div class="row status">
+                                                    <div class=" col-6 col-md-4 pl-0"><div>Incentive In<span> : {{incentive.incentiveIn}}
+                                                    </span><mat-divider></mat-divider> </div>
+                                                    </div>
+                                                    <div class=" col-6 col-md-4 pl-0"><div>Incentive Out<span> : {{incentive.incentiveOut}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class=" col-6 col-md-4 pl-0">
+                                                        <div>Inventory Count<span> : {{target.invcount}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class=" col-6 col-md-4 pl-0">
+                                                        <div matTooltip="Return Of Investment">ROI<span> : {{target.roi}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class=" col-6 col-md-4 pl-0">
+                                                        <div >Incentive Type<span> : {{incentive.incentiveType}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                </div>
+                                <ng-template #noIncentive> Incentive and Target are not available
+                                    <div class="col-12">
+                                        <button (click)="completeProjectStep()" class="btn btn-sm btn-info">
+                                            Add Incentive
+                                        </button>
+                                    </div>
+                                </ng-template>
+                                </div>
+                    </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel [disabled]="!incentive" >
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Project Team & Task
+                    </mat-panel-title>
+                    <mat-panel-description class="d-block">
+                        <a class="btn btn-sm btn-secondary m-0 pull-right" (click)="projectInfoEdit(4)">Edit</a>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="teamtask mt-2" >
+                        <div class="row" *ngIf="projectTeam; else noTeam">
+                            <div class="col-md-4 mb-2" *ngFor="let user of projectTeam.brokingConsultant">
+                                <div class="card testimonial-card">
+                                    <div class="card-up indigo lighten-1"></div>
+                                    <div class="avatar mx-auto white">
+                                    <img src="assets/images/img_avatar_he.png" class="rounded-circle" alt="woman avatar">
+                                    </div>
+                                    <div class="card-body">
+                                    <h5 class="card-title">{{user.fullname}}</h5>
+                                    <span class="d-block">{{user.occ}}</span>
+                                    <table class="table table-responsive mt-3 ml-lg-3">
+                                        <tr><td>Member Type</td> <td>Broking Consultant</td></tr>
+                                        <tr><td>Incentive Type</td> <td><span class="fs-12">{{user.incentiveType}}</span></td></tr>
+                                        <tr><td>Incentive Value</td> <td><span class="fs-12">{{user.incentiveValue}}</span></td></tr>
+                                        <tr><td>Invitation Status</td> <td>
+                                            <span class="fs-12 text-success" *ngIf="user.invitationStatus == 'ACCEPTED'">{{user.invitationStatus}}</span>
+                                            <span class="fs-12 text-danger" *ngIf="user.invitationStatus == 'REJECTED'">{{user.invitationStatus}}</span>
+                                            <span class="fs-12 text-warning" *ngIf="user.invitationStatus == 'PENDING'">{{user.invitationStatus}}</span>
+                                        </td></tr>
+                                        <tr><td>Member Status</td> <td>
+                                            <span class="fs-12 text-success" *ngIf="user.memberStatus == 'ACTIVE'">{{user.memberStatus}}</span>
+                                            <span class="fs-12 text-danger" *ngIf="user.memberStatus == 'SUSPENDED'">{{user.memberStatus}}</span>
+                                            <span class="fs-12 text-warning" *ngIf="user.memberStatus == 'INACTIVE'">{{user.memberStatus}}</span>
+                                        </td></tr>
+                                        <tr><td>Roles</td> <td>
+                                            <div style="display: inline-flex;">
+                                                <span class="text-info fs-12">{{user.roles}}</span>
+                                            </div>
+                                        </td></tr>
+                                    </table>
+
+                                    </div>
+                                    <div class="card-footer text-muted text-center">
+                                        <p class="text-info card-text mb-1">Email : {{user.email}}</p>
+                                        <p class="text-info card-text mb-1">Date Of Join : {{user.doj}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2" *ngFor="let user of projectTeam.digitalMarketing">
+                                    <div class="card testimonial-card">
+                                            <div class="card-up indigo lighten-1"></div>
+                                            <div class="avatar mx-auto white">
+                                            <img src="assets/images/img_avatar_he.png" class="rounded-circle" alt="woman avatar">
+                                            </div>
+                                            <div class="card-body">
+                                            <h5 class="card-title">{{user.fullname}}</h5>
+                                            <span class="d-block">{{user.occ}}</span>
+                                            <table class="table table-responsive mt-3 ml-lg-3">
+                                                <tr><td>Member Type</td> <td>Broking Consultant</td></tr>
+                                                <tr><td>Incentive Type</td> <td><span class="fs-12">{{user.incentiveType}}</span></td></tr>
+                                                <tr><td>Incentive Value</td> <td><span class="fs-12">{{user.incentiveValue}}</span></td></tr>
+                                                <tr><td>Invitation Status</td> <td>
+                                                    <span class="fs-12 text-success" *ngIf="user.invitationStatus == 'ACCEPTED'">{{user.invitationStatus}}</span>
+                                                    <span class="fs-12 text-danger" *ngIf="user.invitationStatus == 'REJECTED'">{{user.invitationStatus}}</span>
+                                                    <span class="fs-12 text-warning" *ngIf="user.invitationStatus == 'PENDING'">{{user.invitationStatus}}</span>
+                                                </td></tr>
+                                                <tr><td>Member Status</td> <td>
+                                                    <span class="fs-12 text-success" *ngIf="user.memberStatus == 'ACTIVE'">{{user.memberStatus}}</span>
+                                                    <span class="fs-12 text-danger" *ngIf="user.memberStatus == 'SUSPENDED'">{{user.memberStatus}}</span>
+                                                    <span class="fs-12 text-warning" *ngIf="user.memberStatus == 'INACTIVE'">{{user.memberStatus}}</span>
+                                                </td></tr>
+                                                <tr><td>Roles</td> <td>
+                                                    <div style="display: inline-flex;">
+                                                        <span class="text-info fs-12">{{user.roles}}</span>
+                                                    </div>
+                                                </td></tr>
+                                            </table>
+                                            
+                                            </div>
+                                            <div class="card-footer text-muted text-center">
+                                                <p class="text-info card-text mb-1">Email : {{user.email}}</p>
+                                                <p class="text-info card-text mb-1">Date Of Join : {{user.doj}}</p>
+                                            </div>
+                                    </div>
+                            </div>
+                            <div class="col-md-4 mb-2" *ngFor="let user of projectTeam.legalConsultant">
+                                <div class="card testimonial-card">
+                                        <div class="card-up indigo lighten-1"></div>
+                                        <div class="avatar mx-auto white">
+                                        <img src="assets/images/img_avatar_he.png" class="rounded-circle" alt="woman avatar">
+                                        </div>
+                                        <div class="card-body">
+                                        <h5 class="card-title">{{user.fullname}}</h5>
+                                        <span class="d-block">{{user.occ}}</span>
+                                        <table class="table table-responsive mt-3 ml-lg-3">
+                                            <tr><td>Member Type</td> <td>Broking Consultant</td></tr>
+                                            <tr><td>Incentive Type</td> <td><span class="fs-12">{{user.incentiveType}}</span></td></tr>
+                                            <tr><td>Incentive Value</td> <td><span class="fs-12">{{user.incentiveValue}}</span></td></tr>
+                                            <tr><td>Invitation Status</td> <td>
+                                                <span class="fs-12 text-success" *ngIf="user.invitationStatus == 'ACCEPTED'">{{user.invitationStatus}}</span>
+                                                <span class="fs-12 text-danger" *ngIf="user.invitationStatus == 'REJECTED'">{{user.invitationStatus}}</span>
+                                                <span class="fs-12 text-warning" *ngIf="user.invitationStatus == 'PENDING'">{{user.invitationStatus}}</span>
+                                            </td></tr>
+                                            <tr><td>Member Status</td> <td>
+                                                <span class="fs-12 text-success" *ngIf="user.memberStatus == 'ACTIVE'">{{user.memberStatus}}</span>
+                                                <span class="fs-12 text-danger" *ngIf="user.memberStatus == 'SUSPENDED'">{{user.memberStatus}}</span>
+                                                <span class="fs-12 text-warning" *ngIf="user.memberStatus == 'INACTIVE'">{{user.memberStatus}}</span>
+                                            </td></tr>
+                                            <tr><td>Roles</td> <td>
+                                                <div style="display: inline-flex;">
+                                                    <span class="text-info fs-12">{{user.roles}}</span>
+                                                </div>                                            </td></tr>
+                                        </table>
+                                        </div>
+                                        <div class="card-footer text-muted text-center">
+                                            <p class="text-info card-text mb-1">Email : {{user.email}}</p>
+                                            <p class="text-info card-text mb-1">Date Of Join : {{user.doj}}</p>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-template #noTeam>Team and Task not Available
+                            <div class="row">
+                                <div class="col-12">
+                                    <button (click)="completeProjectStep()" class="btn btn-sm btn-info">
+                                        Add Team & Task
+                                    </button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+    </div> -->
+
+<!--       
+<div class="modal fade" id="lightBox" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <button type="button" class="close" style="z-index: 9" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" style="font-size: 25px;">&times;</span>
+        </button>
+      <div class="modal-body d-block text-center">
+        <img class="w-100" src="{{imgUrl}}" alt="doc required">
+    </div>
+  </div>
+</div>
+</div> -->
+<div class="modal fade" id="projectInfo" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            
+              <button type="button" class="close mt-2" style="z-index: 9" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="font-size: 25px;">&times;</span>
+              </button>
+            <div class="modal-body">
+                <mat-tab-group headerPosition="above" [(selectedIndex)]="selectedIndex">
+                    <mat-tab label="Project Information"> 
+                            <div class="row appprojectview">
+                                    <div class="col-md-12 mt-2" *ngIf="projectInfo">
+                                            <div class="row status">
+                                                <div class="col-md-6"><div >Project Name<span> : {{projectInfo.projectName}}
+                                                </span><mat-divider></mat-divider></div>
+                                                </div>
+                                                <div class="col-md-6" *ngIf="projectInfo.projectDescription"><div>Project Description
+                                                    <span> : {{projectInfo.projectDescription}}</span><mat-divider></mat-divider>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div>Project Type<span> : {{projectInfo.projectType}}</span><mat-divider></mat-divider>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div>Project Subtype<span> : {{projectInfo.projectSubType}}</span><mat-divider></mat-divider>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6"  *ngIf="projectInfo.startDate">
+                                                    <div>Project Start Date<span> : {{projectInfo.startDate}}</span><mat-divider></mat-divider>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-md-6" *ngIf="projectInfo.endDate">
+                                                    <div>Project End Date   <span> : {{projectInfo.endDate}}</span><mat-divider></mat-divider>
+                                                    </div>
+                                                </div> -->
+                                                <div class="col-md-6">
+                                                    <div>Created <span> : {{projectInfo.created}}</span><mat-divider></mat-divider>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div>Last Updated<span> : {{projectInfo.updated}}</span><mat-divider></mat-divider>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-3 m-2"><b>Project Location</b></div>
+                                            <div class="row status">
+                                            <div class="col-md-6" *ngIf="projectInfo.projectDescription"><div>District
+                                                <span> : {{projectInfo.location.city}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div>State<span> : {{projectInfo.location.state}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div>Country<span> : {{projectInfo.location.country}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" *ngIf="projectInfo.location.village">
+                                                <div >Village<span> : {{projectInfo.location.village}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" *ngIf="projectInfo.location.landmark">
+                                                <div>Landmark<span> : {{projectInfo.location.landmark}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div>Address Line 1<span> : {{projectInfo.location.addressLineOne}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" *ngIf="projectInfo.location.addressLineTwo">
+                                                <div>Address Line 2 <span> : {{projectInfo.location.addressLineTwo}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div>Pin Code<span> : {{projectInfo.location.pincode}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div >Tehsil<span> : {{projectInfo.location.tehsil}}</span><mat-divider></mat-divider>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 mb-2" *ngFor="let stake of projectInfo.STAKEHOLDERS">
+                                                <div class="card testimonial-card">
+                                                    <div class="card-up indigo lighten-1"></div>
+                                                    <div class="avatar mx-auto white">
+                                                    <img src="assets/images/img_avatar_he.png" class="rounded-circle" alt="woman avatar">
+                                                    </div>
+                                                    <div class="card-body">
+                                                    <h5 class="card-title">{{stake.fullName}}</h5>
+                                                    <span class="d-block">{{stake.occ}}</span>
+                                                    <p >Participation Type : {{stake.participationType}}</p>
+                                                    </div>
+                                                    <div class="card-footer text-muted text-center">
+                                                        <span>Share Type :  Stakeholder</span>
+            
+                                                        <!-- <p class="text-info card-text">Date of Join in Project : {{stake.dojp}}</p>
+                                                        <p class="text-info card-text">Date of End in Project : {{stake.doep}}</p> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-2" *ngFor="let benf of projectInfo.BENIFICIARIES">
+                                                <div class="card testimonial-card">
+                                                    <div class="card-up special-color lighten-1"></div>
+                                                    <div class="avatar mx-auto white">
+                                                    <img src="assets/images/img_avatar_he.png" class="rounded-circle" alt="woman avatar">
+                                                    </div>
+                                                    <div class="card-body">
+                                                    <h5 class="card-title">{{benf.fullName}}</h5>
+                                                    <span class="d-block">{{benf.occ}}</span>
+                                                    <p >Participation Type : {{benf.participationType}}</p>
+                                                    </div>
+                                                    <div class="card-footer text-muted text-center">
+                                                    <span>Share Type :  Benificiary</span>
+            
+                                                        <!-- <p class="text-info card-text">Date of Join in Project : {{benf.dojp}}</p>
+                                                        <p class="text-info card-text">Date of End in Project : {{benf.doep}}</p> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-2" *ngFor="let part of projectInfo.PARTICIPANTS">
+                                                <div class="card testimonial-card">
+                                                    <div class="card-up aqua-gradient lighten-1"></div>
+                                                    <div class="avatar mx-auto white">
+                                                    <img src="assets/images/img_avatar_he.png" class="rounded-circle" alt="woman avatar">
+                                                    </div>
+                                                    <div class="card-body">
+                                                    <h5 class="card-title">{{part.fullName}}</h5>
+                                                    <span class="d-block">{{part.occ}}</span>
+                                                    <p >Participation Type : {{part.participationType}}</p>
+                                                    </div>
+                                                    <div class="card-footer text-muted text-center">
+                                                    <span>Share Type :  Paricipant</span>
+            
+                                                        <!-- <p class="text-info card-text">Date of Join in Project : {{part.dojp}}</p>
+                                                        <p class="text-info card-text">Date of End in Project : {{part.doep}}</p> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                         </mat-tab>
+                    <mat-tab label="Project Inventory"> 
+                            <div class="inventory  mt-2">
+                                    <div class="row appprojectview" *ngIf="inventoryInfo; else noInventory">
+                                            <div class="col-md-12" >
+                                                <div class="row status">
+                                                    <div class="col-md-4"><div>Property Type<span> : {{inventoryInfo.propertyType}}
+                                                    </span><mat-divider></mat-divider> </div>
+                                                    </div>
+                                                    <div class="col-md-4" *ngIf="inventoryInfo.brokerDiscount"><div>Broker Discount
+                                                        <span> : {{inventoryInfo.brokerDiscount}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4" *ngIf="inventoryInfo.otherFacilities && inventoryInfo.otherFacilities !=''"><div>Other Facility
+                                                        <span> : {{inventoryInfo.otherFacilities}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>  
+                                                    <div class="col-md-6">
+                                                        <div>Facility<span> : {{inventoryInfo._facilites}}</span>
+                                                            <a *ngIf="isMore" class="text-info" (click)="facilityMoreLess(40)">{{ moreLessValue}}</a> <mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div>Near By Location<span> : {{inventoryInfo._nearByLocation.join(', ')}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3 m-2"><b>Inventory Layout</b></div>
+                                                <div class="row status">
+                                                    <div class="col-md-4 col-6">
+                                                        <div>Service Road Size<span> : {{inventoryInfo.layoutDocument.serviceRoadSize.serviceRoadSizeValue}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-6">
+                                                        <div>Main Entry Road Size <span> : {{inventoryInfo.layoutDocument.mainEntryRoadSize.mainEntryRoadSizeValue}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-6">
+                                                        <div>Maximum Plot Size<span> : {{inventoryInfo.layoutDocument.maximumPlotSize}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-6">
+                                                        <div>Minimum Plot Size<span> : {{inventoryInfo.layoutDocument.minimumPlotSize}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-6">
+                                                        <div>Project Size Value<span> : {{inventoryInfo.layoutDocument.projectSizeValue}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-4 col-6">
+                                                        <div >Layout Prepared By<span> : {{inventoryInfo.layoutDocument.layoutPreparedBy}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div>Project Size Unit<span> : {{inventoryInfo.layoutDocument.projectSizeUnit}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div>Approval Type<span> : {{inventoryInfo.layoutDocument.approvalType}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4" *ngIf="inventoryInfo.layoutDocument.otherLayoutApproval"><div>Other Layout Approval
+                                                    <span> : {{inventoryInfo.layoutDocument.otherLayoutApproval}}</span><mat-divider></mat-divider>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3 m-2"><b>Inventory Location</b></div>
+                                                <div class="row status">
+                                                    <div class="col-md-4 col-6"><div>City
+                                                        <span> : {{inventoryInfo.location.city}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-6"><div>District
+                                                        <span> : {{inventoryInfo.location.district}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-6">
+                                                        <div>Pin Code<span> : {{inventoryInfo.location.pincode}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-6">
+                                                        <div >Tehsil<span> : {{inventoryInfo.location.tehsil}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-6">
+                                                        <div>State<span> : {{inventoryInfo.location.state}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-6">
+                                                        <div>Country<span> : {{inventoryInfo.location.country}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-6">
+                                                        <div >Village<span> : {{inventoryInfo.location.village}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-6">
+                                                        <div>Landmark<span> : {{inventoryInfo.location.landmark}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div>Address Line 1<span> : {{inventoryInfo.location.addressLineOne}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4" *ngIf="inventoryInfo.location.addressLineTwo">
+                                                        <div>Address Line 2 <span> : {{inventoryInfo.location.addressLineTwo}}</span><mat-divider></mat-divider>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <div class="col-md-6 mt-2" *ngFor="let ploting of plottingVariations; let i = index">
+                                            <div class="card" style="border-left: 1px solid #eaeaea;">
+                                                    <div class="card-header" style="background-color: #ccc;">
+                                                        <a class="text-info waves-effect" (click)="viewPlot(ploting)">
+                                                        <span class="pull-left">Plot Information {{i+1}} </span></a>
+                                                        <span class="pull-right">Inventory <span class="badge badge-primary ml-1">{{ploting.variationCount}} </span></span>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row status">
+                                                            <div class="col-6 pl-0 pr-0"><div>Dimension <span> : {{ploting.dimension}}</span><mat-divider></mat-divider>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 pl-0 pr-0">
+                                                                <div>Estimated Price<span> : {{ploting.estimatedPrice}}</span><mat-divider></mat-divider>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 pl-0 pr-0">
+                                                                <div>Variation Count<span> : {{ploting.variationCount}}</span><mat-divider></mat-divider>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 pl-0 pr-0">
+                                                                <div>Available<span> : {{ploting.alvblCount}}</span><mat-divider></mat-divider>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 pl-0 pr-0">
+                                                                <div>Booked<span> : {{ploting.bookedCount}}</span><mat-divider></mat-divider>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 pl-0 pr-0">
+                                                                <div>Delivered<span> : {{ploting.delvCount}}</span><mat-divider></mat-divider>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 pl-0 pr-0">
+                                                                <div>Canceled<span> : {{ploting.canceledCount}}</span><mat-divider></mat-divider>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ng-template class="mt-2" #noInventory>Inventory Information Not Available
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button (click)="completeProjectStep()" class="btn btn-sm btn-info">
+                                                    Add Inventory
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                            </div>
+                    </mat-tab>
+                    <mat-tab label="Project Financial">
+                            <div class="incentive">
+                                    <div class="row appprojectview mt-2">
+                                            <div class="col-md-12 " *ngIf="incentive; else noIncentive">
+                                                    <div class="card-body">
+                                                            <div class="row status">
+                                                                <div class=" col-6 col-md-4 pl-0"><div>Incentive In<span> : {{incentive.incentiveIn}}
+                                                                </span><mat-divider></mat-divider> </div>
+                                                                </div>
+                                                                <div class=" col-6 col-md-4 pl-0"><div>Incentive Out<span> : {{incentive.incentiveOut}}</span><mat-divider></mat-divider>
+                                                                    </div>
+                                                                </div>
+                                                                <div class=" col-6 col-md-4 pl-0">
+                                                                    <div>Inventory Count<span> : {{target.invcount}}</span><mat-divider></mat-divider>
+                                                                    </div>
+                                                                </div>
+                                                                <div class=" col-6 col-md-4 pl-0">
+                                                                    <div matTooltip="Return Of Investment">ROI<span> : {{target.roi}}</span><mat-divider></mat-divider>
+                                                                    </div>
+                                                                </div>
+                                                                <div class=" col-6 col-md-4 pl-0">
+                                                                    <div >Incentive Type<span> : {{incentive.incentiveType}}</span><mat-divider></mat-divider>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- <div class=" col-6 col-md-4 pl-0 pr-0">
+                                                                    <div>Target End Date<span> : {{target.enddate}}</span><mat-divider></mat-divider>
+                                                                    </div>
+                                                                </div> -->
+                                                            </div>
+                                                        </div>
+                                            </div>
+                                            <ng-template #noIncentive> Incentive and Target are not available
+                                                <div class="col-12">
+                                                    <button (click)="completeProjectStep()" class="btn btn-sm btn-info">
+                                                        Add Incentive
+                                                    </button>
+                                                </div>
+                                            </ng-template>
+                                            </div>
+                                </div>
+                    </mat-tab>
+                    <mat-tab label="Project Team">
+                            <div class="teamtask mt-2" >
+                                    <div class="row" *ngIf="projectTeam; else noTeam">
+                                        <div class="col-md-6 mb-2" *ngFor="let user of projectTeam.brokingConsultant">
+                                            <div class="card testimonial-card">
+                                                <div class="card-up indigo lighten-1"></div>
+                                                <div class="avatar mx-auto white">
+                                                <img src="assets/images/img_avatar_he.png" class="rounded-circle" alt="woman avatar">
+                                                </div>
+                                                <div class="card-body">
+                                                <h5 class="card-title">{{user.fullname}}</h5>
+                                                <span class="d-block">{{user.occ}}</span>
+                                                <table class="table table-responsive mt-3 ml-lg-3">
+                                                    <tr><td>Member Type</td> <td>Broking Consultant</td></tr>
+                                                    <tr><td>Incentive Type</td> <td><span class="fs-12">{{user.incentiveType}}</span></td></tr>
+                                                    <tr><td>Incentive Value</td> <td><span class="fs-12">{{user.incentiveValue}}</span></td></tr>
+                                                    <tr><td>Invitation Status</td> <td>
+                                                        <span class="fs-12 text-success" *ngIf="user.invitationStatus == 'ACCEPTED'">{{user.invitationStatus}}</span>
+                                                        <span class="fs-12 text-danger" *ngIf="user.invitationStatus == 'REJECTED'">{{user.invitationStatus}}</span>
+                                                        <span class="fs-12 text-warning" *ngIf="user.invitationStatus == 'PENDING'">{{user.invitationStatus}}</span>
+                                                    </td></tr>
+                                                    <tr><td>Member Status</td> <td>
+                                                        <span class="fs-12 text-success" *ngIf="user.memberStatus == 'ACTIVE'">{{user.memberStatus}}</span>
+                                                        <span class="fs-12 text-danger" *ngIf="user.memberStatus == 'SUSPENDED'">{{user.memberStatus}}</span>
+                                                        <span class="fs-12 text-warning" *ngIf="user.memberStatus == 'INACTIVE'">{{user.memberStatus}}</span>
+                                                    </td></tr>
+                                                    <tr><td>Roles</td> <td>
+                                                        <div style="display: inline-flex;">
+                                                            <span class="text-info fs-12">{{user.roles}}</span>
+                                                        </div>
+                                                    </td></tr>
+                                                </table>
+            
+                                                </div>
+                                                <div class="card-footer text-muted text-center">
+                                                    <p class="text-info card-text mb-1">Email : {{user.email}}</p>
+                                                    <p class="text-info card-text mb-1">Date Of Join : {{user.doj}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-2" *ngFor="let user of projectTeam.digitalMarketing">
+                                                <div class="card testimonial-card">
+                                                        <div class="card-up indigo lighten-1"></div>
+                                                        <div class="avatar mx-auto white">
+                                                        <img src="assets/images/img_avatar_he.png" class="rounded-circle" alt="woman avatar">
+                                                        </div>
+                                                        <div class="card-body">
+                                                        <h5 class="card-title">{{user.fullname}}</h5>
+                                                        <span class="d-block">{{user.occ}}</span>
+                                                        <table class="table table-responsive mt-3 ml-lg-3">
+                                                            <tr><td>Member Type</td> <td>Broking Consultant</td></tr>
+                                                            <tr><td>Incentive Type</td> <td><span class="fs-12">{{user.incentiveType}}</span></td></tr>
+                                                            <tr><td>Incentive Value</td> <td><span class="fs-12">{{user.incentiveValue}}</span></td></tr>
+                                                            <tr><td>Invitation Status</td> <td>
+                                                                <span class="fs-12 text-success" *ngIf="user.invitationStatus == 'ACCEPTED'">{{user.invitationStatus}}</span>
+                                                                <span class="fs-12 text-danger" *ngIf="user.invitationStatus == 'REJECTED'">{{user.invitationStatus}}</span>
+                                                                <span class="fs-12 text-warning" *ngIf="user.invitationStatus == 'PENDING'">{{user.invitationStatus}}</span>
+                                                            </td></tr>
+                                                            <tr><td>Member Status</td> <td>
+                                                                <span class="fs-12 text-success" *ngIf="user.memberStatus == 'ACTIVE'">{{user.memberStatus}}</span>
+                                                                <span class="fs-12 text-danger" *ngIf="user.memberStatus == 'SUSPENDED'">{{user.memberStatus}}</span>
+                                                                <span class="fs-12 text-warning" *ngIf="user.memberStatus == 'INACTIVE'">{{user.memberStatus}}</span>
+                                                            </td></tr>
+                                                            <tr><td>Roles</td> <td>
+                                                                <div style="display: inline-flex;">
+                                                                    <span class="text-info fs-12">{{user.roles}}</span>
+                                                                </div>
+                                                            </td></tr>
+                                                        </table>
+                                                        
+                                                        </div>
+                                                        <div class="card-footer text-muted text-center">
+                                                            <p class="text-info card-text mb-1">Email : {{user.email}}</p>
+                                                            <p class="text-info card-text mb-1">Date Of Join : {{user.doj}}</p>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <div class="col-md-4 mb-2" *ngFor="let user of projectTeam.legalConsultant">
+                                            <div class="card testimonial-card">
+                                                    <div class="card-up indigo lighten-1"></div>
+                                                    <div class="avatar mx-auto white">
+                                                    <img src="assets/images/img_avatar_he.png" class="rounded-circle" alt="woman avatar">
+                                                    </div>
+                                                    <div class="card-body">
+                                                    <h5 class="card-title">{{user.fullname}}</h5>
+                                                    <span class="d-block">{{user.occ}}</span>
+                                                    <table class="table table-responsive mt-3 ml-lg-3">
+                                                        <tr><td>Member Type</td> <td>Broking Consultant</td></tr>
+                                                        <tr><td>Incentive Type</td> <td><span class="fs-12">{{user.incentiveType}}</span></td></tr>
+                                                        <tr><td>Incentive Value</td> <td><span class="fs-12">{{user.incentiveValue}}</span></td></tr>
+                                                        <tr><td>Invitation Status</td> <td>
+                                                            <span class="fs-12 text-success" *ngIf="user.invitationStatus == 'ACCEPTED'">{{user.invitationStatus}}</span>
+                                                            <span class="fs-12 text-danger" *ngIf="user.invitationStatus == 'REJECTED'">{{user.invitationStatus}}</span>
+                                                            <span class="fs-12 text-warning" *ngIf="user.invitationStatus == 'PENDING'">{{user.invitationStatus}}</span>
+                                                        </td></tr>
+                                                        <tr><td>Member Status</td> <td>
+                                                            <span class="fs-12 text-success" *ngIf="user.memberStatus == 'ACTIVE'">{{user.memberStatus}}</span>
+                                                            <span class="fs-12 text-danger" *ngIf="user.memberStatus == 'SUSPENDED'">{{user.memberStatus}}</span>
+                                                            <span class="fs-12 text-warning" *ngIf="user.memberStatus == 'INACTIVE'">{{user.memberStatus}}</span>
+                                                        </td></tr>
+                                                        <tr><td>Roles</td> <td>
+                                                            <div style="display: inline-flex;">
+                                                                <span class="text-info fs-12">{{user.roles}}</span>
+                                                            </div>                                            </td></tr>
+                                                    </table>
+                                                    </div>
+                                                    <div class="card-footer text-muted text-center">
+                                                        <p class="text-info card-text mb-1">Email : {{user.email}}</p>
+                                                        <p class="text-info card-text mb-1">Date Of Join : {{user.doj}}</p>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ng-template #noTeam>Team and Task not Available
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button (click)="completeProjectStep()" class="btn btn-sm btn-info">
+                                                    Add Team & Task
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                     </mat-tab>
+
+                </mat-tab-group>
+          </div>
+        </div>
+      </div>
+      </div>

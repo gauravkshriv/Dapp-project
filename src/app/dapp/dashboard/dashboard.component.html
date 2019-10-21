@@ -1,0 +1,168 @@
+<!-- <div class="row">
+    <div class="col-md-6">
+            <canvas baseChart
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [colors]="lineChartColors"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"
+            [plugins]="lineChartPlugins"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+    </div>
+    <div class="col-md-6">
+      <button class="btn btn-sm btn-info" (click)="randomize()">Randomize</button>
+      <button class="btn btn-sm btn-info" (click)="pushOne()">Push</button>
+      <button class="btn btn-sm btn-info" (click)="changeColor()">Recolor</button>
+      <button class="btn btn-sm btn-info" (click)="hideOne()">Toggle Series B</button>
+      <button class="btn btn-sm btn-info" (click)="changeLabel()">Change Label</button>
+    </div>
+  </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row">
+    <div class="col-md-3 pl-sm-auto pl-md-0 mt-2" *ngFor="let card of dappCard">
+        <div class="card">
+              <div class="card-body waves-effect">
+                <a class="text-info" *ngIf="card.rout !== ''" [routerLink]="card.rout">
+                  <div class="row">
+                      <div class="col-6">
+                          <img class="card-img-top" [src]="card.imgSrc" alt="Card image cap">
+                      </div>
+                      <div class="col-6 pt-4 mpading">
+                          <span  class="text-info"> {{card.name}}</span>
+                      </div>
+                    </div>
+                </a>
+                <a *ngIf="card.rout == ''" (click)="underDev()">
+                    <div class="row">
+                        <div class="col-6">
+                            <img class="card-img-top" [src]="card.imgSrc" alt="Card image cap">
+                        </div>
+                        <div class="col-6 pt-4 mpading">
+                            <span  class="text-info"> {{card.name}}</span>
+                        </div>
+                      </div>
+                  </a>
+              </div>
+          </div>
+        </div>
+  </div>
+<!-- 
+  <div class="row">
+        <div class="col-md-3 pl-sm-auto pl-md-0 mt-2" *ngFor="let card of dappCard">
+            <div class="card">
+                  <div class="card-body waves-effect">
+                       <div *ngIf="card.kytStatus == 'PENDING'">
+                            <div >
+                                <span>KYT is Pending</span>
+                                <button class="btn btn-sm btn-secondary" (click)="doKYT()">DO KYT</button></div>
+                            <a class="text-info" *ngIf="card.rout !== ''" [routerLink]="card.rout">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img class="card-img-top" [src]="card.imgSrc" alt="Card image cap">
+                                    </div>
+                                    <div class="col-6 pt-4 mpading">
+                                        <span  class="text-info"> {{card.name}}</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a *ngIf="card.rout == ''" (click)="underDev()">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <img class="card-img-top" [src]="card.imgSrc" alt="Card image cap">
+                                        </div>
+                                        <div class="col-6 pt-4 mpading">
+                                            <span  class="text-info"> {{card.name}}</span>
+                                        </div>
+                                      </div>
+                                  </a>
+                        </div>
+                        <div *ngIf="card.kytStatus == 'DECLINED'">
+                           <div >
+                                <span>KYT is Declined</span>
+                                <button class="btn btn-sm btn-secondary" (click)="doKYT()">DO KYT</button></div>
+                            <a class="text-info" *ngIf="card.rout !== ''" [routerLink]="card.rout">
+                            <div class="row">
+                                <div class="col-6">
+                                    <img class="card-img-top" [src]="card.imgSrc" alt="Card image cap">
+                                </div>
+                                <div class="col-6 pt-4 mpading">
+                                    <span  class="text-info"> {{card.name}}</span>
+                                </div>
+                            </div>
+                            </a>
+                            <a *ngIf="card.rout == ''" (click)="underDev()">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <img class="card-img-top" [src]="card.imgSrc" alt="Card image cap">
+                                        </div>
+                                        <div class="col-6 pt-4 mpading">
+                                            <span  class="text-info"> {{card.name}}</span>
+                                        </div>
+                                      </div>
+                                  </a>
+                        </div>
+                        <div *ngIf="card.kytStatus == 'UNDERREVIEW'">
+                            <p>KYT is Under Review</p>
+                                <a class="text-info" *ngIf="card.rout !== ''" [routerLink]="card.rout">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img class="card-img-top" [src]="card.imgSrc" alt="Card image cap">
+                                    </div>
+                                    <div class="col-6 pt-4 mpading">
+                                        <span  class="text-info"> {{card.name}}</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a *ngIf="card.rout == ''" (click)="underDev()">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <img class="card-img-top" [src]="card.imgSrc" alt="Card image cap">
+                                        </div>
+                                        <div class="col-6 pt-4 mpading">
+                                            <span  class="text-info"> {{card.name}}</span>
+                                        </div>
+                                      </div>
+                                  </a>
+                        </div>
+                        <div *ngIf="card.kytStatus == 'APPROVED'">
+                            <p>KYT is APPROVED</p>
+                                <a class="text-info" *ngIf="card.rout !== ''" [routerLink]="card.rout">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img class="card-img-top" [src]="card.imgSrc" alt="Card image cap">
+                                    </div>
+                                    <div class="col-6 pt-4 mpading">
+                                        <span  class="text-info"> {{card.name}}</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a *ngIf="card.rout == ''" (click)="underDev()">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img class="card-img-top" [src]="card.imgSrc" alt="Card image cap">
+                                    </div>
+                                    <div class="col-6 pt-4 mpading">
+                                        <span  class="text-info"> {{card.name}}</span>
+                                    </div>
+                                    </div>
+                                </a>
+                        </div>
+                  </div>
+              </div>
+            </div>
+      </div> -->

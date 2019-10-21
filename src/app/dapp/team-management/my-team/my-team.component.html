@@ -1,0 +1,95 @@
+<div *ngIf="isLoading" class="overlay">
+    <em class="loadTitle">Loading...</em>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+      </div>
+</div>
+<div class="row mb-2">
+  <div class="col-12 p-0">
+      <mat-tab-group (selectedIndexChange)="check($event)">
+          <mat-tab label=" My Team"> 
+              <div class="row">
+                  <div class="md-form form-sm _search col-6 col-md-4">
+                      <input id="tt" #search class="search form-control form-control-sm" type="text" (keyup)="onSearch(search.value)">
+                      <label for="tt">Search...</label>
+                  </div>
+                <div class="addnew col-6 col-md-8">
+                  <div class="fright-flex">
+                      <a class="pr-2 mt-2" matTooltip="Refresh"  (click)="viewTeamMember()"><i class="fa fa-refresh fs-25" [ngClass]="{'fa-spin': isLoading === true }"></i></a>
+                      <a class="btn btn-sm btn-info"(click)="addNewMember()" title="Add New Member" >Add New Member</a>  
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="tablediv">
+                  <ng2-smart-table class="filetable" [settings]="settings" [source]="memberTableSource"
+                  (userRowSelect)="onUserRowSelect($event)" (custom)="onCustom($event)"></ng2-smart-table>
+                </div>
+              </div>
+          </mat-tab>
+          <mat-tab label="My Invitation">
+              <div class="row">
+                  <div class="md-form form-sm _search col-6 col-md-4">
+                      <input id="tt" #searchinv class="search form-control form-control-sm" type="text" (keyup)="onSearchinv(searchinv.value)">
+                      <label for="tt">Search...</label>
+                  </div>
+                <div class="addnew col-6 col-md-8">
+                    <a class="pr-2 mt-2" matTooltip="Refresh"  (click)="refreshInvitation()"><i class="fa fa-refresh fs-25" [ngClass]="{'fa-spin': isLoading === true }"></i></a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="tablediv">
+                  <ng2-smart-table class="filetable" [settings]="settings_inv" [source]="invitationTableSource"
+                  (userRowSelect)="onUserRowSelect($event)" (custom)="onCustomInv($event)"></ng2-smart-table>
+                </div>
+              </div>
+          </mat-tab>
+      </mat-tab-group>
+  </div>
+</div>
+
+
+
+<input id="def" type="hidden" style="display: none;" value="" (click)="defClick($event.target.value)">
+<input id="pid" type="hidden" style="display: none;" value="" (click)="projectIdClick($event.target.value)">
+
+
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-sm modal-info" role="document">
+    <div class="modal-content text-center">
+      <div class="modal-header d-flex justify-content-center">
+          <p class="heading">Edit Member Information</p>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+              <mat-form-field>
+                <mat-select placeholder="Member Status" [(ngModel)]="memberStatusCode"  [ngModelOptions]="{standalone: true}" name="memberStatusCode">
+                    <mat-option value="1" >Active</mat-option>
+                    <mat-option value="0">Inactive</mat-option>
+                    <mat-option  value="2">Suspended</mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
+          <div class="col-12">
+              <mat-form-field >
+                <input matInput [matDatepicker]="_doj" [(ngModel)]="doj"
+                  [ngModelOptions]="{standalone: true}"  placeholder="Date of Join" required>
+                <mat-datepicker-toggle matSuffix [for]="_doj"></mat-datepicker-toggle>
+                <mat-datepicker #_doj></mat-datepicker>
+              </mat-form-field>
+          </div>
+        </div>
+          <div class="text-center">
+              <button  [disabled]="btnDisabled" (click)="UpdateTM()" class="btn btn-sm btn-primary btn-rounded">
+                  <span class="spinner-border-sm mr-2" [ngClass]="{'spinner-border': createBtnValue === 'Updating..' }" 
+                  role="status" aria-hidden="true"></span>{{createBtnValue}}</button>
+          </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<a id="updateinfo" onclick="toastr.success('Member Info Updated Successfully!!');"></a>
+<a id="invStatus" onclick="toastr.success('Invitation Status changed Successfully!!');"></a>
+<a id="deleteInfo" onclick="toastr.success('Member Deleted Successfully!!');"></a>

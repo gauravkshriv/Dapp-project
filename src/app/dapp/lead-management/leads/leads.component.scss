@@ -1,0 +1,24 @@
+
+:host
+::ng-deep mat-tab-body .mat-tab-body-content {
+    height: 100%;
+    overflow: hidden !important; 
+}
+.lead{
+    font-size: 14px;
+    font-weight: 400;
+}
+.lead span{
+    font-size: 15px;
+}
+.modal-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    color: white;
+    font-weight: 400; 
+}
+::ng-deep .mat-tab-labels > .mat-tab-label-active >.mat-tab-label-content {
+    font-weight: 600;
+    font-size: 14px;
+    transition: .3s ease-in-out;
+  }

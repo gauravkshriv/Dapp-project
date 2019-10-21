@@ -1,0 +1,123 @@
+
+ <div *ngIf="isLoading" class="overlay">
+  <em class="loadTitle">Loading...</em>
+   <div class="spinner-grow" role="status">
+     <span class="sr-only"></span>
+   </div>
+</div>
+ 
+<a class="adddbank" data-toggle="tooltip" title="Create New Team" (click)="createDBModal()">
+<i class="fa fa-plus"></i>
+</a>
+<select class="mdb-select md-form" searchable="Search here..">
+    <option value="" disabled selected>Choose your country</option>
+    <option value="1">USA</option>
+    <option value="2">Germany</option>
+    <option value="3">France</option>
+    <option value="3">Poland</option>
+    <option value="3">Japan</option>
+  </select>
+<div class="row"  *ngIf="AllTeamMember.length">
+ <div class="col-md-3 mt-10 pl-0 mb-3" *ngFor="let tm of AllTeamMember">
+     <div class="card" >
+         <div class="disp-f-r">
+             <h4 class="card-title float-left waves-effect"> 
+               <a (click)="openDataBank(tm.dataBankName)">{{tm.dataBankName}} </a></h4>
+             <div class="float-right dropdown">
+                 <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <i class="fa fa-ellipsis-v">
+                   </i></a>
+                 <div class="dropdown-menu dropdown-menu-right dropdown-primary">
+                   <a class="dropdown-item" (click)="renameDBModal(tm.dataBankName)">Rename</a>
+                   <a class="dropdown-item"(click)="openDataBank(tm.dataBankName)">Details</a>
+                   <a class="dropdown-item" (click)="deleteDBModal(tm.dataBankName)">Delete</a>
+                 </div>
+               </div>
+           </div>
+         <a (click)="openDataBank(tm.dataBankName)">
+         <!-- <img class="card-img-top" src="{{tm.imgUrl}}" alt="Card image cap"> -->
+           <div class="card-body pt-0">
+             <hr>
+               <img class="card-img-top" src="assets/images/team-member.png" alt="Card image cap">            
+         </div>
+         <div class="card-footer text-muted text-center">
+             <p class="text-info card-text">Created : {{tm.created}}</p>
+             <p class="text-info card-text">Modified : {{tm.updated}}</p>
+           </div>
+       </a>
+       </div>
+ </div>
+</div>
+
+<div class="row" *ngIf="!AllTeamMember.length">
+    <div class="card">
+        <h4 class="card-title p-2"> 
+            <b>You Don't Have Any Team.</b></h4>
+        <img class="card-img-top" src="https://www.georges.com.sg/skin/images/no_products_found.png" alt="Card image cap">
+          <div class="card-body">
+          <div class="text-center">
+              <p class="card-text">Create New Team</p>
+            </div>
+        </div>
+        <div class="card-footer text-muted text-center">
+            <a (click)="createDBModal()"><i class="fa fa-plus fa-4x text-success"></i></a>
+        </div>
+      </div>
+</div>
+
+ <div class="modal fade" id="editOrCreateModal" tabindex="-1" role="dialog" 
+   aria-hidden="true">
+   <div class="modal-dialog modal-notify modal-success" role="document">
+     <div class="modal-content text-center">
+       <div class="modal-header d-flex justify-content-center">
+         <p class="heading">{{editOrCreateTeambtn}} Data Bank</p>
+       </div>
+       <div class="modal-body">
+         <i class="fa fa-database fa-4x animated fadeIn"></i>
+         <div class="md-form">
+             <input name="databankname" type="text" id="inputdm" [(ngModel)]="dataBankName"
+             (keypress)="dataBankNameKeyPress($event)" autofocus (keyup)="dataBankNameKeyUp($event)" class="form-control">
+             <label for="inputdm">Data Bank Name</label>
+           </div>
+           <p class="text-info font-weight-normal">The data bank name should be at-least 5 characters long, It should not contains special charecters,
+              It must not be start with number.</p>
+            <p class="text-danger">{{errorName}}</p>
+       </div>
+       <div class="modal-footer flex-center">
+           <button id="createDBbtn" class="btn btn-sm btn-success btn-rounded waves-effect" [disabled]="loading" type="button" (click)="craeteOrRenameDataBank()">
+               <span class="spinner-border-sm" [ngClass]="{'spinner-border': editOrCreateTeambtn === 'Loading..' }" role="status" aria-hidden="true"></span>
+               {{editOrCreateTeambtn}}
+             </button>
+         <a type="button" class="btn btn-sm  btn-danger btn-rounded waves-effect" data-dismiss="modal">Cancel</a>
+       </div>
+     </div>
+   </div>
+ </div>
+
+ <div class="modal fade" id="deleteDBModal" tabindex="-1" role="dialog" aria-hidden="true">
+   <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+     <div class="modal-content text-center">
+       <div class="modal-header d-flex justify-content-center" style="background-color: #ff3547;">
+         <p class="heading">Are you sure?</p>
+       </div>
+       <div class="modal-body">
+         <p class="text-warning">Are you sure you want to delete this item?</p>
+         <i class="fas fa-times fa-4x animated fadeIn  "></i>
+       </div>
+       <div class="modal-footer flex-center">
+           <button class="btn btn-sm btn-outline-danger btn-rounded waves-effect" [disabled]="loading" type="button" (click)="deleteConfirm()">
+               <span class="spinner-border-sm" [ngClass]="{'spinner-border': editOrCreateTeambtn === 'Deleteing..' }" role="status" aria-hidden="true"></span>
+               {{editOrCreateTeambtn}}
+             </button>
+         <a type="button" class="btn btn-sm  btn-danger btn-rounded waves-effect" data-dismiss="modal">No</a>
+       </div>
+     </div>
+   </div>
+ </div>
+<a id="createInfo" onclick="toastr.success('Data Bank Created Successfully !!');"></a>
+<a id="renameInfo" onclick="toastr.success('Data Bank Created Successfully !!');"></a>
+<a id="deleteInfo" onclick="toastr.warning('Data Bank Deleted Successfully !!');"></a>
+
+
+
+

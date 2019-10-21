@@ -1,0 +1,26 @@
+<app-navbar></app-navbar>
+<main>
+    <div class="row">
+        <div class="col">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item" 
+                *ngFor="let item of breadcrumbList; let i = index"
+                [class.active]="i===breadcrumbList.length-1">
+                <a [routerLink]="item.path" *ngIf="i!==breadcrumbList.length-1">
+                  {{ item.name }}
+                </a>
+                <span *ngIf="i===breadcrumbList.length-1">{{ item.name }}</span>
+              </li>
+            </ol>
+          </div>
+    </div>
+    <!-- <div class="content">
+      <a class="back mr-1" title="Back" (click)="goBack()">
+        <i class="fas fa-arrow-alt-circle-left"></i>
+      </a>
+    <a class="back" title="Forward" (click)="goForward()">
+      <i class="fas fa-arrow-alt-circle-right"></i>
+  </a>
+    </div> -->
+      <router-outlet class="dapp"></router-outlet>
+</main>

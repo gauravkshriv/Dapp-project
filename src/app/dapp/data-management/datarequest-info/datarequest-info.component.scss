@@ -1,0 +1,25 @@
+.list-group li {
+    font-weight: 400;
+}
+.list-group li span{
+    font-weight: 500;
+}
+hr.w-100 {
+    margin: 2px !important;
+}
+.header{
+    display: flow-root !important;
+}
+.u-l{
+    border-radius: 0px 20px 20px 20px;
+}
+.u-r{
+    border-radius: 20px 0px 20px 20px;
+}
+.rare-wind-gradient {
+    background-image: linear-gradient(to top,#cfeda8 0,#d6eefe 100%) !important;
+}
+ul.chat-1.list-unstyled.scrollbar-light-blue {
+    max-height: 400px;
+    overflow: auto;
+}

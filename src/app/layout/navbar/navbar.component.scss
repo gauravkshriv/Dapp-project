@@ -1,0 +1,25 @@
+.listul{
+    padding: 0 5px;
+    margin: 0 -10px;
+    width: 100%;
+}
+.listul a{
+    background-color: transparent !important;
+    font-size: 13px;
+}
+.listul span:hover{
+    text-decoration: underline;
+}
+.listul span{
+   padding-left: 10px;
+   font-size: 13px;
+}
+.listul .row{
+    margin-right: 0 !important;
+}
+.dropdown.show .dropdown-menu{
+    opacity: 1;
+}
+.dropdown-toggle::after{
+    display: none;
+}

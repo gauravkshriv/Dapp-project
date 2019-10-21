@@ -1,0 +1,81 @@
+.row.status > div > div {
+    padding: 5px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.row.status > div > div >span{
+    font-weight: 400;
+}
+.succ{
+    background-color: #a7ffc652;
+}
+.inf{
+    background-color: #a7d7ff52;
+}
+.warn{
+    background-color: #efffa752;
+}
+.dang{
+    background-color: #ffa7a752;
+}
+.img-label img{
+    height: 100px;
+    width: 100%;
+  }
+  .pdf-label i{
+    display: block;
+    font-size: 90px;
+    color: #d86548;
+  }
+  .remove-file{
+    position: absolute;
+    top: 5px;
+    right: 20px;
+  }
+  .remove-file i{
+    font-size: 20px;
+    color: rgb(247, 71, 71);
+  }
+  .fileStatus{
+    position: absolute;
+    top: 5px;
+    right: 40px;
+    font-size: 20px !important;
+    color: #4285f4
+  }
+  .soldout::after{
+    background-image: url('../../../../assets/images/soldout.png');
+  }
+  .card-height{
+    max-height: 250px;
+    overflow: auto;
+    height: 250px;
+  }
+  .lightbox-img{
+    width: 50px;
+    height: 40px;
+    cursor: -webkit-zoom-in;
+    cursor: zoom-in;
+}
+.button2{
+    position: absolute !important;
+    right: -5px;
+    top: -5px;
+    background: red !important;
+    border-radius: 50% !important;
+    width: 30px !important;
+    z-index: 9;
+}
+.button2 span{
+    font-size: 30px;
+}
+.cardBody div,span{
+    font-weight: 400 !important;
+}
+.accr-heared{
+    display: inline-block;
+    width: 100%;
+}
+.test > div:nth-child(3n){
+  padding-right: 0;
+}

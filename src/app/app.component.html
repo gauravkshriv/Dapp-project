@@ -1,0 +1,4 @@
+<div class="loading-overlay" *ngIf="loading">
+    <p style="position: absolute;">Loading..</p>
+</div>
+<router-outlet class="app" (activate)="onActivate($event)" ></router-outlet>

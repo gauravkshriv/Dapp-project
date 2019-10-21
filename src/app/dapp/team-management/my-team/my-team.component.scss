@@ -1,0 +1,20 @@
+
+mat-form-field{
+    width: 100% !important;
+  }
+  [aria-label=primary] {
+    background-color: blue;
+  }
+  
+  [aria-label=accent] {
+    background-color: aqua;
+  }
+  :host
+  ::ng-deep .mat-tab-list{
+    background-color: #eaf0fa;
+  }
+  :host
+  ::ng-deep .mat-tab-body-content{
+    padding: 1rem !important;
+  }
+  

@@ -1,0 +1,42 @@
+.side-nav{
+    background-image: none;
+}
+.side-nav a {
+    line-height: 22px;
+    height: 33px;
+}
+.accordion .card {
+    background: none;
+    padding: 0px !important;
+    margin: 0px !important;
+    border: none !important;
+}
+.custom-scrollbar a {
+    color: #fff;
+    font-size: 13px;
+}
+
+.card-header a {
+    padding-left: 0px;
+}
+
+.md-accordion .card .card-header {
+    padding: 9px 20px 0px 20px;
+}
+.card-header.waves-effect:hover{
+background-color:#4285F4;
+transition: 1s ease-out;
+}
+.card-header.waves-effect:focus{
+    background-color:#4285F4;
+}
+
+.list-unstyled li {
+    margin-left: 17px;
+}
+.list-unstyled li a:hover {
+    color: #4285F4;
+}
+.light-blue-skin .side-nav {
+    background-color: #6a9ed3;
+}

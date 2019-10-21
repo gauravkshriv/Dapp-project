@@ -1,0 +1,299 @@
+.overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.56);
+}
+.spinner-grow{
+  width: 5rem;
+  height: 5rem;
+  position: absolute;
+  top: 36%;
+  left: 45%;
+  background: #3b71ef;
+}
+.loadTitle{
+  position: absolute;
+  top: 40%;
+  left: 45%;
+  color: rgb(253, 253, 253);
+  font-weight: 400;
+  font-size: 18px;    
+}
+
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  border: 50px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+
+@media (min-width: 1281px) {
+  
+  .col{
+    padding: 0;
+  }
+  .lds-hourglass {
+    display: inline-block;
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    width: 100px;
+    height: 100px;
+  }
+  .spinner-grow{
+    width: 5rem;
+    height: 5rem;
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    background: #3b71ef;
+  }
+  .loadTitle{
+    position: absolute;
+    top: 40%;
+    left: 45%;
+    color: rgb(253, 253, 253);
+    font-weight: 400;
+    font-size: 18px;    
+  }
+  .data-req-modal{
+    width: 120%;
+  }
+  .breadcrumb > li a, span{
+    font-size: 15px;
+  }
+  .direction-img-view{
+    width: 136px;
+    }
+    .content{
+      top: 100px;
+      right: 80px;
+  }
+    
+  }
+  
+  /* 
+    ##Device = Laptops, Desktops
+    ##Screen = B/w 1025px to 1280px
+  */
+  
+  @media (min-width: 1025px) and (max-width: 1280px) {
+    
+    .col{ 
+      padding: 0;
+    }
+    .filetable{
+      display: contents;
+      overflow: -webkit-paged-x;
+     }
+     .modalfiletable{
+      display: contents;
+      overflow: -webkit-paged-x;
+     }
+     .lds-hourglass {
+      display: inline-block;
+      position: absolute;
+      top: 48%;
+      left: 48%;
+      width: 100px;
+      height: 100px;
+    }
+    .spinner-grow{
+      width: 5rem;
+      height: 5rem;
+      position: absolute;
+      top: 45%;
+      left: 45%;
+      background: #3b71ef;
+    }
+    .loadTitle{
+      position: absolute;
+      top: 40%;
+      left: 45%;
+      color: rgb(253, 253, 253);
+      font-weight: 400;
+      font-size: 18px;    
+    }
+    .data-req-modal{
+      width: 100%;
+    }
+    :host ::ng-deep ng2-smart-table table tr td {
+      padding: 0.3em .5em !important;
+    }
+    .direction-img-view{
+      width: 136px;
+    }
+    .status > div > div,span{
+      font-size: 14px;
+  }
+  .content{
+    top: 100px;
+    right: 80px;
+  }
+  }
+  
+  /* 
+    ##Device = Tablets, Ipads (portrait)
+    ##Screen = B/w 768px to 1024px
+  */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .col{
+      padding: 0;
+    }
+    
+    main{
+      padding: 80px 20px !important;
+    }
+    .lds-hourglass {
+      display: inline-block;
+      position: absolute;
+      top: 40%;
+      left: 45%;
+      width: 100px;
+      height: 100px;
+    }
+    .data-req-modal{
+      width: 100%;
+    }
+    .breadcrumb >li a ,span{
+      font-size: 14px;
+    }
+    :host
+    ::ng-deep ng2-smart-table table tr td {
+      padding: 0.2em .2em !important;
+    }
+    .direction-img-view{
+      width: 115px;
+      margin-top: 5px;
+      }
+      
+    .content{
+      top: 91px;
+      right: 65px;
+    }
+    img.card-img-top {
+      height: 70px !important;
+      width: 70px !important;
+    }
+    .mpading{
+      padding-top: 5px !important;
+    }
+  }
+  
+  /* 
+    ##Device = Low Resolution Tablets, Mobiles (Landscape)
+    ##Screen = B/w 481px to 767px
+  */
+  
+  @media (min-width: 481px) and (max-width: 767px) {
+    
+    :host
+    ::ng-deep ng2-smart-table table {
+        border: 1px solid  #00000052;
+    }
+    :host
+    ::ng-deep ng2-smart-table table tr td {
+      padding: 0.1em .2em !important;
+    }
+    .content{
+      top: 100px;
+      right: 80px;
+    }
+    
+  }
+  
+  /* 
+    ##Device = Most of the Smartphones Mobiles (Portrait)
+    ##Screen = B/w 320px to 479px
+  */
+  
+  @media (min-width: 320px) and (max-width: 480px) {
+    
+    :host
+    ::ng-deep ng2-smart-table table {
+        border: 1px solid  #f1f1f752;
+    }
+   
+    main{
+      padding: 70px 20px !important;
+    }
+   .filetable{
+    display: contents;
+    overflow: -webkit-paged-x;
+   }
+   .modalfiletable{
+    display: contents;
+    overflow: -webkit-paged-x;
+   }
+   .lds-hourglass {
+    display: inline-block;
+    position: absolute;
+    top: 40%;
+    left: 35%;
+    width: 100px;
+    height: 100px;
+  }
+  .spinner-grow{
+    width: 5rem;
+    height: 5rem;
+    position: absolute;
+    top: 45%;
+    left: 40%;
+    background: #3b71ef;
+  }
+  .loadTitle{
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    color: rgb(253, 253, 253);
+    font-weight: 400;
+    font-size: 18px;    
+  }
+  .data-req-modal{
+    width: 100%;
+  }
+  .breadcrumb >li a, span{
+    font-size: 14px;
+  }
+  :host
+  ::ng-deep ng2-smart-table table tr td {
+    padding: 0.1em .2em !important;
+  }
+  .direction-img-view{
+    width: 115px;
+    margin-top: 5px;
+    }
+    
+    .content{
+        top: 82px;
+      right: 23px;
+    }
+  }

@@ -1,0 +1,206 @@
+<div *ngIf="isLoading" class="overlay">
+    <em class="loadTitle">Loading...</em>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+      </div>
+</div>
+<div class="row">
+  <div class="classic-tabs">
+    <ul class="nav tabs-primary nav-justified " id="myTabJust" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link  waves-effect active " (click)="dataReqTab()" id="buy-tab-just" data-toggle="tab" href="#buy-just" role="tab" aria-controls="buy-just"
+          aria-selected="true">Data Request</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link  waves-effect" (click)="soldDataTab()" id="share-tab-just" data-toggle="tab" href="#share-just" role="tab" aria-controls="share-just"
+          aria-selected="false">Sold Data</a>
+      </li>
+    
+    </ul>
+    <div class="tab-content card pt-5" id="myTabContentJust">
+      <div class="tab-pane fade show active" id="buy-just" role="tabpanel" aria-labelledby="buy-tab-just">
+          <div class="row">
+              <div class="md-form form-sm _search col-6 col-md-4">
+                  <input id="tt" #search class="search form-control form-control-sm" type="text" (keyup)="onDataReqSearch(search.value)">
+                  <label for="tt">Search...</label>
+              </div>
+           
+            <div class="col-6 col-md-8">
+              <div class="d-flex pull-right">
+                  <a class="pr-2 mt-2" (click)="refreshDataRequest()"><i class="fa fa-refresh fs-25" [ngClass]="{'fa-spin': isLoading === true }"></i></a>
+                  <a  *ngIf="occ.includes('DATA_MANAGEMENT_CONSULTANT')" class="btn btn-sm btn-info m-0" data-toggle="tooltip" title="Add New Data Request" (click)="openNewRequestModal()">New Data Request</a>    
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+           <div class="tablediv">
+            <ng2-smart-table class="filetable" [settings]="dataReqSettings"
+            (userRowSelect)="onUserRowSelect($event)" [source]="dataReqTableSource" (custom)="onCustom($event)"></ng2-smart-table>
+           </div>
+          </div>
+      </div>
+      <div class="tab-pane fade" id="share-just" role="tabpanel" aria-labelledby="share-tab-just">
+          <div class="row">
+              <div class="md-form form-sm _search col-6 col-md-4">
+                  <input id="sold_Data" #searchSoldData class="search form-control form-control-sm" type="text" (keyup)="onDataSoldSearch(searchSoldData.value)">
+                  <label for="sold_Data">Search...</label>
+              </div>
+           
+            <div class="addnew col-6 col-md-8">
+              <a class="pr-2" (click)="refreshSoldData()"><i class="fa fa-refresh fs-25" [ngClass]="{'fa-spin': isLoading === true }"></i></a>
+            </div>
+          </div>
+          <div class="row">
+              <div style="width: 100%;">
+               <ng2-smart-table class="filetable" [settings]="soldDataSettings" [source]="soldDataTableSource"></ng2-smart-table>
+              </div>
+             </div>
+   
+    </div>
+  </div>
+  
+  </div>
+</div>
+<div class="modal fade right" id="newRequestDBModal" tabindex="-1" role="dialog" 
+aria-hidden="true">
+<div class="modal-dialog modal-full-height modal-right modal-notify modal-info" role="document">
+    <div class="modal-content" style="margin-left: 80px;">
+        <div class="modal-header">
+          <p class="heading">Upload File
+          </p>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="white-text">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="modal-row">
+                    <form class="text-center md-form" style="color: #757575;">
+                        <div class="md-form mt-3">
+                            <input name="requestPrice" [(ngModel)]="requestPrice" type="text" autocomplete="off" (keypress)="numDotKeyPress($event)" (keyup)="numKeyup()" id="requestPrice" class="form-control">
+                            <label for="requestPrice">Enter Request Price <em>(Required)</em></label>
+                        </div>
+                        <div class="md-form">
+                            <input  name="sharePercent" [(ngModel)]="sharePercent"  type="text" autocomplete="off" (keypress)="numDotKeyPress($event)" (keyup)="numKeyup()" id="sharePercent" class="form-control">
+                            <label for="sharePercent">Share Percent <em>(Optional)</em></label>
+                        </div>
+                        <div class="md-form">
+                            <input  name="dataCount" [(ngModel)]="dataCount"  type="text" autocomplete="off" (keypress)="numKeyPress($event)" (keyup)="numKeyup()" id="dataCount" class="form-control">
+                            <label for="dataCount">Data Count <em>(Required)</em></label>
+                        </div>
+                    
+                    
+                        <select  name="b" [(ngModel)]="requestToUuid" (change)="numKeyup()" class="mdb-select md-form colorful-select dropdown-primary">
+                        <option value="" disabled selected>Request To (Required)</option>
+                        <option *ngFor="let user of cunsultants" value="{{user.uuid}}">{{user.fullName}}</option>
+                        </select>
+                        
+                        <select name="a" [(ngModel)]="shareType" (change)="numKeyup()" class="mdb-select md-form dropdown-primary">
+                            <option value="" disabled selected>Choose Share Type (Required)</option>
+                            <option value="1">Buy</option>
+                            <option value="0">Share</option>
+                        </select>  
+                    
+                        <select name="c" [(ngModel)]="requestType" (change)="numKeyup()" class="mdb-select md-form dropdown-primary">
+                            <option value="" disabled selected>Choose Request Type (Required)</option>
+                            <option value="SMS">SMS</option>
+                            <option value="RAW">RAW</option>
+                            <option value="EMAIL">EMAIL</option>
+                            <option value="SEGRREGATED">SEGRREGATED</option>
+                        </select>  
+                    <select name="d" [(ngModel)]="requestPurpose" (change)="numKeyup()"  class="mdb-select md-form dropdown-primary">
+                        <option value="" disabled selected>Choose Data Purpose (Required)</option>
+                        <option value="INVESTOR">Investor</option>
+                        <option value="BUYER">Buyer</option>
+                        <option value="RENTING">Renting</option>
+                        <option value="LEASING">Leasing</option>
+                        <option value="B2B">B2B</option>
+                        </select>  
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer flex-center">
+            <button  [disabled]="btnDisabled" (click)="requestApi()" class="btn btn-sm btn-success btn-rounded">
+                <span class="spinner-border-sm" [ngClass]="{'spinner-border': requsetbtnValue === 'Requesting..' }" 
+                role="status" aria-hidden="true"></span>{{requsetbtnValue}}</button>
+          <a type="button" class="btn btn-sm  btn-danger btn-rounded waves-effect" data-dismiss="modal">Cancel</a>
+            <!-- <button class="btn btn-success btn-rounded waves-effect" [disabled]="btnDisabled">Send</button> -->
+          </div>
+      </div>
+</div>
+</div>
+
+<input id="def" type="hidden" style="display: none;" value="" (click)="dataInf($event.target.value)">
+<input id="accreg" type="hidden" style="display: none;" value="" (click)="accregVal($event.target.value)">
+
+<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+    <div class="modal-content text-center data-req-modal">
+      <div class="modal-header d-flex justify-content-center">
+          <p class="heading">Request Information</p>
+      </div>
+      <div class="modal-body" style="text-align: left;">
+           <div class="row" *ngIf="requsetInfo">
+                <ul class="list-group list-group-flush col-md-6" >
+                    <li class="list-group-item">Request ID :      <span>  {{requsetInfo.requestId}}  </span>  </li>
+                    <li class="list-group-item">Request Price :      <span>  {{requsetInfo.requestPrice}}  </span>  </li>
+                    <li class="list-group-item">Share Percent :      <span>  {{requsetInfo.sharePercent}}  </span>  </li>
+                    <li class="list-group-item">Share Type :      <span>  {{requsetInfo.shareType}}  </span>  </li>
+                    <li class="list-group-item">Created  :      <span>  {{requsetInfo.created}}  </span>  </li>
+                </ul>
+                <ul class="list-group list-group-flush col-md-6" >
+                    <li class="list-group-item">Data Type :      <span>  {{requsetInfo.dataType}}  </span>  </li>
+                    <li class="list-group-item">Data Purpose :      <span>  {{requsetInfo.dataPurpose}}  </span>  </li>
+                    <li class="list-group-item">Data Request Status :      <span>  {{requsetInfo.dataRequestStatus}}  </span>  </li>
+                    <li class="list-group-item">Data Count :      <span>  {{requsetInfo.dataCount}}  </span>  </li>
+                    <li class="list-group-item">Updated :      <span>  {{requsetInfo.updated}}  </span>  </li>
+                </ul>
+           </div>
+           <div class="row" *ngIf="soldDataInfo">
+             <div class="md-form form-sm _search col-6 col-md-4">
+                <input id="searchSoldDataView" #searchSoldDataView class="search form-control form-control-sm" type="text" (keyup)="onSearchSoldDataView(searchSoldDataView.value)">
+                <label for="searchSoldDataView">Search...</label>
+            </div>
+         
+          <div class="addnew col-6 col-md-8">
+              Request ID :      <span>  {{soldDataInfo  .requestId}}    </span>        </div>
+                <!-- <ul class="list-group list-group-flush" >
+                    <li class="list-group-item">Request ID :      <span>  {{soldDataInfo  .requestId}}  </span>  </li>
+                </ul> -->
+
+                <div style="width: 100%; overflow: auto;">
+                <ng2-smart-table class="modalfiletable" [settings]="soldDataViewSettings" [source]="soldDataViewTableSource"></ng2-smart-table>
+                </div>
+       </div>
+       
+      </div>
+      <div class="modal-footer">
+            <a type="button" class="btn btn-sm  btn-danger waves-effect" data-dismiss="modal">OK</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a id="requestInfo" onclick="toastr.success('Data Requested Successfully !!');"></a>
+<a id="fileUploadInfo" onclick="toastr.success('File Uploaded Successfully !!');"></a>
+<a id="rejectSucc" onclick="toastr.success('Data Request Rejected Successfully !!');"></a>
+<a id="approveSucc" onclick="toastr.success('Data Request Accepted Successfully !!');"></a>
+<a id="alreadyAR" onclick="toastr.warning('Data Already Accepted Or Rejacted !!','',{preventDuplicates: true});"></a>
+<a id="yourselfAction" onclick="toastr.warning('You can not  Accepted Or Rejacted Your Requseted Data !!','',{preventDuplicates: true});"></a>
+
+<a id="notAcc" onclick="toastr.warning('You Must Accept Data Request First !!','',{preventDuplicates: true});"></a>
+<a id="alreadySold" onclick="toastr.warning('Requested data already sold, You need not to sold again !!','',{preventDuplicates: true});"></a>
+<a id="noCunsultantAval" onclick="toastr.warning('No Cunsultant Available to Request Data!!','',{preventDuplicates: true});"></a>
+
+<a id="sellInfo" onclick="toastr.success('Requested Data Sold Successfully!!');"></a>
+<a id="soldInfo" onclick="toastr.warning('Data not Sold Yet !!');"></a>
+
+
+
+
+
+
+

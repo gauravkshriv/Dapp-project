@@ -1,0 +1,124 @@
+.stepper{
+    min-height: 28rem !important;
+}
+.srchBody{
+    width: 100%;
+    min-height: 70px;
+    max-height: 300px;
+    display: block;
+    overflow: auto;
+    border: 1px solid #f1e9e9;
+}
+.srchBody ul{
+    list-style: none;
+    padding: 8px 10px;
+}
+.srchBody ul li{
+    padding: 2px 5px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    border-bottom: 1px solid #cec9c9;
+}
+.srchBody ul li:hover{
+    background-color: #02b3b3;
+    color: white;
+    box-shadow: 1px 1px 10px 4px #cec9c9;
+    border-radius: 2px;
+  }
+  .srchBody ul li img{
+    width: 80px;
+    height: 80px;
+}
+.srchBody ul li span{
+    display: block;
+}
+.form-check label{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.spin{
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    color: blue;
+}
+
+.tblList{
+    width: 100%;
+    min-height: 70px;
+    max-height: 397px;
+    display: block;
+    overflow: auto;
+    border: 1px solid #f1e9e9;
+}
+.tblList ul{
+    list-style: none;
+    padding: 8px 10px;
+}
+.tblList ul li{
+    padding: 2px 5px;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+.tblList ul li:hover{
+    background-color: #02b3b3;
+    color: white;
+    box-shadow: 1px 1px 10px 4px #cec9c9;
+    border-radius: 2px;
+  }
+  .tblList ul li img{
+    width: 80px;
+    height: 80px;
+}
+.tblList ul li span{
+    display: block;
+}
+.text-head{
+    font-weight: 400;
+    font-size: 16px;
+    background: #4285f4;
+    margin-bottom: 0;
+    padding: 17px 10px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+
+
+
+
+
+// :host
+// ::ng-deep ng2-st-tbody input[type=checkbox]:checked {
+//     background-color:#000;
+//     border-left-color:#06F;
+//     border-right-color:#06F;
+// }
+// :host
+// ::ng-deep ng2-st-tbody input[type=checkbox]:hover {
+//     box-shadow:0px 0px 10px #1300ff;
+// }
+// :host
+// ::ng-deep ng2-st-tbody input[type=checkbox] {
+//     padding-left:5px;
+//     padding-right:5px;
+//     border-radius:15px;
+
+//     -webkit-appearance:button;
+
+//     border: double 2px #00F;
+
+//     background-color:#0b0095;
+//     color:#FFF;
+//     white-space: nowrap;
+//     overflow:hidden;
+
+//     width:15px;
+//     height:15px;
+// }
+mat-spinner {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }

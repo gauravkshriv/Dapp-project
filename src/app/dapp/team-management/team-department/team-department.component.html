@@ -1,0 +1,55 @@
+<a class="add-dept" matTooltip="Add New Data Bank" (click)="addDept()">
+    <i class="fa fa-plus"></i>
+</a>
+<div class="row">
+    <div class="col-md-3 pl-sm-auto pl-md-0 mt-2" *ngFor="let dept of departmentList">
+        <div class="card">
+            <div class="card-body waves-effect">
+            <a (click)="updateDept(dept)" routerLink="/dapp/team-management/team-department/{{dept.route}}">
+                <div class="row">
+                    <div class="col-6">
+                        <img class="card-img-top" src="assets/images/addteam.png" alt="Card image cap">
+                    </div>
+                    <div class="col-6 pt-4">
+                        <span> {{dept.name}}</span>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="edit-dept" *ngIf="dept.editable">
+                <span class="text-info ml-3">
+                    <a (click)="editDept(dept)">Edit </a>
+                </span>               
+            </div>
+           
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="renameOrCreateModal" tabindex="-1" role="dialog" 
+aria-hidden="true">
+<div class="modal-dialog modal-notify modal-success" role="document">
+  <div class="modal-content text-center">
+    <div class="modal-header d-flex justify-content-center">
+      <p class="heading">{{renameOrCreateBtn}} Department</p>
+    </div>
+    <div class="modal-body">
+      <i class="fa fa-building-o fa-4x animated fadeIn"></i>
+      <div class="md-form">
+          <input name="newDeptName" type="text" id="inputdept" [(ngModel)]="newDeptName" class="form-control"  
+          (keypress)="deptNameKeyPress($event)" autofocus (keyup)="deptNameKeyUp($event)">
+          <label for="inputdept">Department Name</label>
+        </div>
+        <p class="text-info font-weight-normal">The department name name should be at-least 4 characters long, It should not contains special charecters,
+           It must not be start with number.</p>
+         <p class="text-danger">{{errorName}}</p>
+    </div>
+    <div class="modal-footer flex-center">
+        <button id="createDBbtn" class="btn btn-sm btn-success btn-rounded waves-effect" [disabled]="!isValidDeptName" type="button" (click)="craeteOrRenameDept()">
+            <span class="spinner-border-sm" [ngClass]="{'spinner-border': renameOrCreateBtn === 'Loading..' }" role="status" aria-hidden="true"></span>
+            {{renameOrCreateBtn}}
+          </button>
+      <a type="button" class="btn btn-sm  btn-danger btn-rounded waves-effect" data-dismiss="modal">Cancel</a>
+    </div>
+  </div>
+</div>
+</div>

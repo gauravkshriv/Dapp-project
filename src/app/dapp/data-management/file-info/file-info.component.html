@@ -1,0 +1,28 @@
+<div *ngIf="isLoading" class="overlay">
+        <em class="loadTitle">Loading...</em>
+        <div class="spinner-grow" role="status">
+          <span class="sr-only"></span>
+        </div>
+    </div>
+<div class="row">
+    <div class="col-6 col-md-4">
+        <div class="md-form form-sm _search col-6 col-md-4">
+            <input id="tt" #search class="search form-control form-control-sm" type="text" (keyup)="onSearch(search.value)">
+            <label for="tt">Search...</label>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 dropdown" *ngIf="isRowSelected">
+            <a class="btn btn-sm btn-sm btn-info dropdown-toggle waves-effect" id="allocate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             Allocate Data to
+            </a>
+            <div class="dropdown-menu" aria-labelledby="allocate">
+                <a class="dropdown-item" (click)="goProfile()" ><span>team Na</span></a>
+                <a class="dropdown-item" (click)="logout()"><span >Team Ra</span></a>
+            </div>
+         </div>
+    <div class="col-12 pl-0 pr-0 tablediv">
+        <ng2-smart-table class="filetable" [settings]="settings" [source]="tableSource" (userRowSelect)="onUserRowSelect($event)" ></ng2-smart-table>
+    </div>
+        
+</div>
+

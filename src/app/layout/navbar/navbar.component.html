@@ -1,0 +1,40 @@
+<header>    
+        <app-sidebar></app-sidebar>
+        <nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
+            <div class="float-left">
+                <a data-activates="slide-out" class="button-collapse"><i class="fas fa-bars"></i></a>
+            </div>
+            <div class="breadcrumb-dn mr-auto">
+                <p>DAAP</p>
+            </div>
+            <ul class="nav navbar-nav nav-flex-icons ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle waves-effect" id="pop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-th"></i> Apps
+                </a>
+                <div class="dropdown-menu dropdown-menu-right"  style="min-width: 270px;" aria-labelledby="pop">
+                <ul class="listul">
+                    <div class="row" >
+                        <div class="col-4" *ngFor="let app of appList"><a [href]="app.route" style="display: flow-root;" target="_blank">
+                            <img [src]="app.imgSrc"/><span>
+                                    {{app.name}}
+                            </span></a></div>
+                    </div>
+                </ul>
+                </div>
+            </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user"></i>  <span *ngIf="user ">{{user.username}}</span>
+                            <span *ngIf="!user ">User</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a  *ngIf="user" class="dropdown-item" (click)="goProfile()" ><span>Profile</span></a>
+                        <!-- <a  *ngIf="user" class="dropdown-item" ><span>Setting</span></a> -->
+                        <a  class="dropdown-item" (click)="logout()"><span >Logout</span>
+                             <span *ngIf="!user">Login</span></a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+      </header>

@@ -1,0 +1,52 @@
+
+
+.addbtn{
+    margin: 52px 0 0 10px;
+    font-weight: 400;
+    color: #0056b3 !important;
+}
+.addbtn :hover{
+    color: #5dcfe3 !important;
+}
+li.list-group-item{
+    font-size: 16px;
+    font-weight: 400;
+}
+li.list-group-item span{
+    font-size: 15px;
+    font-weight: 400;
+}
+.inputli div{
+    padding: 0;
+    margin: 2px 0px;
+    display: flex;
+}
+.inputli div input{
+    padding: 0;
+}
+.inputli div button{
+    padding: 5px 10px;
+    margin: 0 0 5px 5px;
+}
+.inputli a{
+    margin: 0px 20px;
+    color: rgba(7, 167, 241, 0.788);
+}
+.inputli a:hover{
+    color: rgba(7, 69, 241, 0.788);
+}
+.tab-content{
+    padding: 0;
+}
+
+.dataTag{
+    text-decoration: underline;
+}
+.text-info{
+    text-align: justify !important;
+    float: left;
+}
+.check-label{
+    font-size: 14px;
+    font-weight: 400;
+}

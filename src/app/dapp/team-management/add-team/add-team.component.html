@@ -1,0 +1,78 @@
+
+<div class="overlay" *ngIf="isLoading" id="loading">
+        <em class="loadTitle">Loading...</em>
+        <div class="spinner-grow" role="status">
+            <span class="sr-only"></span>
+          </div>
+    </div>
+    <div class="row">
+        <div class="col-6 col-md-3 mt-0 mb-0">
+            <mat-form-field>
+                <mat-select [(ngModel)]="selectedRef" (selectionChange)="refChange()" placeholder="Selected Referral">
+                    <mat-option value="0">My Referral</mat-option>
+                    <mat-option value="1">Other Users</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="addnew col-6 col-md-3" *ngIf="selectedRef == '1'">
+            <mat-form-field>
+                <mat-select [(ngModel)]="filterMemberBy" (selectionChange)="filterChange()" placeholder="Filter Member By">
+                    <mat-option value="0">All</mat-option>
+                    <mat-option value="1">Occupation</mat-option>
+                    <mat-option value="2">Search By User Name</mat-option>
+                    <mat-option value="3">Search By Full Name</mat-option>
+
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="addnew col-6 col-md-3" *ngIf="filterMemberBy == '1' && selectedRef == '1'">
+            <mat-form-field>
+                <mat-select [(ngModel)]="selectedOcc"  (selectionChange)="occChange()" placeholder="Filter User By Occupation">
+                    <mat-option *ngFor="let occ of rmeOcc" [value]="occ.enum">{{occ.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3" *ngIf="filterMemberBy == '2' && selectedRef == '1'">
+            <mat-form-field >
+                <input matInput #searchUser placeholder="Search User By User Name" type="text" (keyup)="onSearchByUserName(searchUser.value)">
+                <mat-spinner [diameter]="20" *ngIf="isSearching"></mat-spinner>
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3" *ngIf="filterMemberBy == '3' && selectedRef == '1'">
+            <mat-form-field >
+                <input matInput #searchFullName placeholder="Search User By Full Name, seprated by space" type="text" (keyup)="onsearchFullName(searchFullName.value)">
+                <mat-spinner [diameter]="20" *ngIf="isSearching"></mat-spinner>
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-md-3 mt-2" *ngIf="isSelected">
+           <button class="btn btn-sm btn-info" (click)="addUsersToTeam()">
+               Add Selected
+           </button>
+        </div>
+    </div>
+    <div class="row">    
+        <div class="md-form form-sm _search col-6 col-md-4 mt-2" *ngIf="selectedRef == '0'">
+            <input id="tt" #search class="search form-control form-control-sm" type="text" (keyup)="onSearch(search.value)">
+            <label for="tt">Table Search...</label>
+        </div>
+        <div class="addnew col-6" [ngClass]="(selectedRef == '0')? 'col-md-8':'col-md-12'">
+            <a class="btn btn-sm btn-info" routerLink="/dapp/team-management/my-team" title="Add New Member" >My Team & Invitation</a>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+            <div class="tablediv">
+            <ng2-smart-table class="filetable" [settings]="settings" [source]="memberTableSource"
+            (userRowSelect)="onUserRowSelect($event)" (custom)="onCustom($event)"></ng2-smart-table>
+            </div>
+      </div>
+    </div>
+    
+
+<input id="def" type="hidden" style="display: none;" value="" (click)="viewImage($event.target.value)">
+<a id="alreadyMyTeam" onclick="toastr.warning(`User Already added in Your Team`,``,{preventDuplicates: true});"></a>
+<a id="invalidAction" onclick="toastr.warning(`Use above ADD SELECTED button to Add Member`,``,{preventDuplicates: true});"></a>
+<a id="otherfac" onclick="toastr.warning(`Enter Other Facility`,``,{preventDuplicates: true});"></a>
+<a id="minUser" onclick="toastr.warning(`Please select min one user`,``,{preventDuplicates: true});"></a>
+<a id="userNotFound" onclick="toastr.warning(`User not found with this Name`,``,{preventDuplicates: true});"></a>
+

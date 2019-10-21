@@ -1,0 +1,61 @@
+<div *ngIf="isLoading" class="overlay">
+        <em class="loadTitle">Loading...</em>
+        <div class="spinner-grow" role="status">
+            <span class="sr-only"></span>
+          </div>
+    </div>
+ 
+    <div class="row mb-2">
+        <div class="col-12 p-0">
+            <mat-tab-group (selectedIndexChange)="check($event)">
+                <mat-tab label=" My Project"> 
+                    <div class="row">
+                        <div class="md-form form-sm _search col-6 col-md-4">
+                            <input id="tt" #search class="search form-control form-control-sm" type="text" (keyup)="onSearch(search.value)">
+                            <label for="tt">Search...</label>
+                        </div>
+                        <div class="addnew col-6 col-md-8">
+                            <div class="fright-flex">
+                                    <a class="pr-2 mt-2" matTooltip="Refresh" (click)="refreshAllProject()"><i class="fa fa-refresh fs-25" [ngClass]="{'fa-spin': isLoading === true }"></i></a>
+                                    <a class="btn btn-sm btn-info"(click)="addNewProject()" title="Add New Project" >Add New Project</a>        
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="tablediv">
+                        <ng2-smart-table class="filetable" [settings]="settings" [source]="myProjTableSource" (custom)="onCustom($event)"></ng2-smart-table>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="My Invitation">
+                    <div class="row">
+                        <div class="md-form form-sm _search col-6 col-md-4">
+                            <input id="tt" #searchinv class="search form-control form-control-sm" type="text" (keyup)="onSearchinv(searchinv.value)">
+                            <label for="tt">Search...</label>
+                        </div>
+                    <div class="addnew col-6 col-md-8">
+                        <a class="pr-2 mt-2" matTooltip="Refresh"  (click)="refreshInvitation()"><i class="fa fa-refresh fs-25" [ngClass]="{'fa-spin': isLoading === true }"></i></a>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="tablediv">
+                        <ng2-smart-table class="filetable" [settings]="settings_inv" [source]="invProjTableSource"
+                         (custom)="onCustomInv($event)"></ng2-smart-table>
+                    </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+        
+        
+        <input id="def" type="hidden" style="display: none;" value="" (click)="viewProject($event.target.value)">
+
+        <input id="pid" type="hidden" style="display: none;" value="" (click)="projectIdClick($event.target.value)">
+
+        <a id="deleteInfo" onclick="toastr.success('File Deleted Successfully !!');"></a>
+
+        <a id="updateinfo" onclick="toastr.success('Member Info Updated Successfully!!');"></a>
+        <a id="invStatus" onclick="toastr.success('Invitation Status changed Successfully!!');"></a>
+        <a id="deleteInfo" onclick="toastr.success('Member Deleted Successfully!!');"></a>
+        

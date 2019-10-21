@@ -1,0 +1,34 @@
+
+<div class="row">
+    <div class="col-md-2 pl-0" *ngFor="let folder of folders" >
+        <a (click)="openFolder(folder.code)">
+        <div class="card waves-effect mb-3">
+            <div>
+                <div class="head">
+                    <i class="fa fa-folder-o folder" aria-hidden="true"></i> 
+                    <!-- <div class="float-right dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown"
+                          aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-primary animated zoomIn">
+                          <a class="dropdown-item" href="#">Rename</a>
+                          <a class="dropdown-item"[routerLink]="['/datamanagement/databank',dataBankName,folder.code]">
+                            Details</a>
+                          <a class="dropdown-item" href="#">Delete</a>
+                        </div>
+                    </div> -->
+                </div> 
+            </div>
+           
+              <div class="">
+                <div class="disp-f-r">
+                  <span class="card-title">{{folder.title}} </span>
+                </div>
+           </div>
+         
+          </div>
+          </a>
+    </div>
+  </div>
+  
+  
+  

@@ -1,0 +1,257 @@
+<div *ngIf="isLoading" class="overlay">
+    <em class="loadTitle">Loading...</em>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+      </div>
+</div>
+<div class="row">
+  <div class="md-form form-sm _search col-6 col-md-4">
+      <!-- <input id="fn" name="fileName" [(ngModel)]="uploadedFileName"  type="text" class="form-control form-control-sm" autofocus> -->
+      <input id="tt" #search class="search form-control form-control-sm" type="text" (keyup)="onSearch(search.value)">
+      <label for="tt">Search...</label>
+  </div>
+  <div class="col-6 col-md-4 dropdown" *ngIf="isRowSelected">
+      <a class="btn btn-sm btn-sm btn-info dropdown-toggle waves-effect" id="allocate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+       Allocate In Project
+      </a>
+      <div class="dropdown-menu" aria-labelledby="allocate">
+          <a class="dropdown-item" *ngFor="let project of projectList" (click)="allocateDataIn(project)" ><span>{{project.projectName}} {{project.projectID}}</span></a>
+      </div>
+   </div>
+  <div class="addnew col-6" [ngClass]="(isRowSelected == true)? 'col-md-4':'col-md-8'">
+      <a class="btn btn-sm btn-info" data-toggle="tooltip" title="Add New File" (click)="openNewFileModal()">Add New</a>
+  </div>
+</div>
+
+<div class="row">
+ <div class="tablediv">
+  <ng2-smart-table class="filetable" [settings]="settings" [source]="tableSource"
+  (userRowSelect)="onUserRowSelect($event)" (custom)="onCustom($event)"></ng2-smart-table>
+ </div>
+</div>
+<input id="def" type="hidden" style="display: none;" value="" (click)="viewData($event.target.value)">
+<div class="modal fade right" id="newFileDBModal" tabindex="-1" role="dialog" 
+aria-hidden="true">
+<div class="modal-dialog modal-full-height modal-right modal-notify modal-info" role="document">
+    <div class="modal-content" style="margin-left: 80px;">
+        <div class="modal-header">
+          <p class="heading">Upload File
+          </p>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="white-text">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12 pt-0">
+                    <form class="text-center md-form" style="color: #757575;">
+                        <div class="md-form mt-3">
+                            <input name="dataage" [(ngModel)]="dataAge" type="text" autocomplete="off" (keypress)="numKeyPress($event)" (keyup)="numKeyup($event)" id="dataAge" class="form-control">
+                            <label for="dataAge">Enter Data Age in Year</label>
+                        </div>
+                        <div class="md-form">
+                            <input  name="perDataRate" [(ngModel)]="perDataRate"  type="text" autocomplete="off" (keypress)="numKeyPress($event)" (keyup)="numKeyup($event)" id="perDataRate" class="form-control">
+                            <label for="perDataRate">Per Data Rate in Ruppes</label>
+                        </div>
+                       <div class="text-a-left">
+                        <b>Select Data Quality</b>  
+                        <div class="form-check text-a-left  p-l-0">
+                          <input type="radio" (click)="dataQualityChecked('0')" class="form-check-input" id="fresh" name="dataQuality" checked>
+                          <label class="form-check-label check-label" for="fresh">FRESH</label>
+                        </div>
+                        <div class="form-check text-a-left p-l-0">
+                          <input type="radio"  (click)="dataQualityChecked('1')"  class="form-check-input" id="recy" name="dataQuality" >
+                          <label class="form-check-label check-label" for="recy">RE-CYCLED</label>
+                        </div>
+                       </div>
+                        <select name="b" [(ngModel)]="dataPurpose" (change)="slectChange($event)"
+                         class="mdb-select md-form colorful-select dropdown-primary">
+                            <option value="" disabled selected>Choose Data Purpose</option>
+                            <option value="INVESTOR">Investor</option>
+                            <option value="BUYER">Buyer</option>
+                            <option value="RENTING">Renting</option>
+                            <option value="LEASING">Leasing</option>
+                            <option value="B2B">B2B</option>
+                          </select>  
+                        <select name="a" [(ngModel)]="dataLocation"(change)="slectChange($event)"
+                         class="mdb-select md-form colorful-select dropdown-primary">
+                            <option value="" disabled selected>Choose Data Location</option>
+                            <option value="Andaman_and_Nicobar_Islands">Andaman and Nicobar Islands</option>
+                            <option value="Andhra_Pradesh">Andhra Pradesh</option>
+                            <option value="Arunachal_Pradesh">Arunachal Pradesh</option>
+                            <option value="Assam">Assam</option>
+                            <option value="Bihar">Bihar</option>
+                            <option value="Chandigarh">Chandigarh</option>
+                            <option value="Chhattisgarh">Chhattisgarh</option>
+                            <option value="Dadra_and_Nagar_Haveli">Dadra and Nagar Haveli</option>
+                            <option value="Daman_and_Diu">Daman and Diu</option>
+                            <option value="Delhi">Delhi</option>
+                            <option value="Goa">Goa</option>
+                            <option value="Gujarat">Gujarat</option>
+                            <option value="Haryana">Haryana</option>
+                            <option value="Himachal_Pradesh">Himachal Pradesh</option>
+                            <option value="Jammu_and_Kashmir">Jammu and Kashmir</option>
+                            <option value="Jharkhand">Jharkhand</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Kerala">Kerala</option>
+                            <option value="Lakshadweep">Lakshadweep</option>
+                            <option value="Madhya_Pradesh">Madhya Pradesh</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                            <option value="Manipur">Manipur</option>
+                            <option value="Meghalaya">Meghalaya</option>
+                            <option value="Mizoram">Mizoram</option>
+                            <option value="Nagaland">Nagaland</option>
+                            <option value="Orissa">Orissa</option>
+                            <option value="Pondicherry">Pondicherry</option>
+                            <option value="Punjab">Punjab</option>
+                            <option value="Rajasthan">Rajasthan</option>
+                            <option value="Sikkim">Sikkim</option>
+                            <option value="Tamil_Nadu">Tamil Nadu</option>
+                            <option value="Tripura">Tripura</option>
+                            <option value="Uttaranchal">Uttaranchal</option>
+                            <option value="Uttar_Pradesh">Uttar Pradesh</option>
+                            <option value="West_Bengal">West Bengal</option>
+                            </select>    
+                          <div class="file-field big">
+                            <a class="btn-floating amber darken-2 mt-0 float-left">
+                              <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                              <input type="file" (change)="inputFile($event)" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" >
+                            </a>
+                            <div class="file-path-wrapper">
+                              <input name="fileName" readonly [(ngModel)]="fileName" type="text" placeholder="Upload File Only xlsx, xls">
+                            </div>
+                            <p class="text-danger">{{fileError}}</p>
+                            <p class="text-info">If You don't have valid file format, Please downlod sample file. 
+                              <a href="https://s3.us-east-2.amazonaws.com/dmctest.rmehub.in/SampleData/SampleFile.xlsx" target="_blank" class="text-primary">Download</a> </p>
+                           
+                          </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer flex-center">
+            <button id="createDBbtn" class="btn btn-sm btn-success btn-rounded waves-effect" [disabled]="btnDisabled" type="button" (click)="uploadFile()">
+                <span class="spinner-border-sm" [ngClass]="{'spinner-border': uploadbtnValue === 'Uploading..' }" role="status" aria-hidden="true"></span>
+                {{uploadbtnValue}}
+              </button>
+          <a type="button" class="btn btn-sm  btn-danger btn-rounded waves-effect" data-dismiss="modal">Cancel</a>
+            <!-- <button class="btn btn-success btn-rounded waves-effect" [disabled]="btnDisabled">Send</button> -->
+          </div>
+      </div>
+</div>
+</div>
+
+<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+    <div class="modal-content text-center">
+      <div class="modal-header d-flex justify-content-center">
+          <p class="heading">File Information</p>
+      </div>
+      <div class="modal-body" style="text-align: left;">
+          <div class="row" *ngIf="dataInfo">             
+                  <div class="list-group col-6" style="display: -webkit-box;" id="list-tab" role="tablist">
+                  <a class="list-group-item list-group-item-action waves-effect active " id="list-home-list" data-toggle="list" href="#list-home"
+                      role="tab" aria-controls="home">Data Information</a>
+                  <a class="list-group-item list-group-item-action waves-effect" id="list-profile-list" data-toggle="list" href="#list-profile"
+                      role="tab" aria-controls="profile">File Information</a>
+                  <a type="button"  class="float-right btn btn-sm btn-outline-info waves-effect" data-dismiss="modal">OK</a>
+              </div>
+              <div class="col-6">
+                  <div class="tab-content" id="nav-tabContent">
+                      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+                          <ul class="list-group list-group-flush">
+                              <li class="list-group-item">Data Tag :      <span>{{dataInfo.dataTag}}    </span>  </li>
+                              <li class="list-group-item">Data Age :      <span>{{dataInfo.dataAge}}    </span>  </li>
+                              <li class="list-group-item">Data Count :    <span>{{dataInfo.dataCount}}  </span>  </li>
+                              <li class="list-group-item">Data Quality :  <span>{{dataInfo.dataQuality}}</span>  </li>
+                              <li class="list-group-item">Data Purpose :  <span>{{dataInfo.dataPurpose}}</span>  </li>
+                              <li class="list-group-item">Rate-per Data : <span>{{dataInfo.ratePerData}}</span>  </li>
+                              <li class="list-group-item">Data Type :     <span>{{dataInfo.dataType}}   </span>  </li>
+                          </ul>
+                      </div>
+                      <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+                          <ul class="list-group list-group-flush">
+                              <li class="list-group-item inputli">File Name : <span>{{dataInfo.fileName}}</span>
+                                  <a (click)="changeFileName(dataInfo)">change</a>
+                                  <div  *ngIf="changeClicked" style="margin-top: 10px;">
+                                          <div class="md-form form-sm">
+                                              <input id="fn" name="fileName" [(ngModel)]="uploadedFileName"  type="text" class="form-control form-control-sm" autofocus>
+                                              <label for="fn">File Name</label>
+                                          </div>
+                                      <button (click)="updateName(dataInfo)" class="btn btn-sm btn-success" [disabled]="uploadedFileName == '' || isLoading">Update</button>
+                                  </div>
+                              </li>
+                              <li class="list-group-item">File URL :<span style="word-break: break-all;"> {{dataInfo.dataFileUrl}}</span></li>
+                              <li class="list-group-item">Created At : <span>{{dataInfo.created}}</span></li> 
+                              <li class="list-group-item">Updated At : <span>{{dataInfo.updated}}</span></li> 
+                          </ul>
+                      </div>
+                      <!-- <div class="tab-pane fade" id="list-time" role="tabpanel" aria-labelledby="list-profile-list">
+                          <ul class="list-group list-group-flush">
+                              <li class="list-group-item">Created At : <span>{{dataInfo.created}}</span></li> 
+                              <li class="list-group-item">Updated At : <span>{{dataInfo.updated}}</span></li>                          
+                          </ul>
+                      </div> -->
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="allocateData" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+    <div class="modal-content text-center">
+      <div class="modal-header d-flex justify-content-center">
+          <p class="heading" *ngIf="project">Allocate Data In Project {{project.projectName}}</p>
+      </div>
+      <div class="modal-body" *ngIf="project">
+          <div class="col-6 col-md-4 dropdown">
+              <a class="btn btn-sm btn-sm btn-info dropdown-toggle waves-effect" id="allocate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Allocate To NA
+              </a>
+              <div class="dropdown-menu" aria-labelledby="allocate">
+                  <a class="dropdown-item" *ngFor="let NA of project.NA" (click)="allocateDataTo(NA,0)" ><span>{{NA.fullname}}</span></a>
+              </div>
+           </div>
+          <div class="col-6 col-md-4 dropdown">
+              <a class="btn btn-sm btn-sm btn-info dropdown-toggle waves-effect" id="allocate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Allocate To NA
+              </a>
+              <div class="dropdown-menu" aria-labelledby="allocate">
+                  <a class="dropdown-item" *ngFor="let NA of project.NA" (click)="allocateDataTo(NA,0)" ><span>{{NA.fullname}}</span></a>
+              </div>
+           </div>
+           <div class="col-6 col-md-4 dropdown">
+              <a class="btn btn-sm btn-sm btn-info dropdown-toggle waves-effect" id="allocate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Allocate To RA
+              </a>
+              <div class="dropdown-menu" aria-labelledby="allocate">
+                  <a class="dropdown-item" *ngFor="let RA of project.RA" (click)="allocateDataTo(RA,1)" ><span>{{RA.fullname}}</span></a>
+              </div>
+           </div>
+           <div class="col-6 col-md-4 dropdown">
+              <a class="btn btn-sm btn-sm btn-info dropdown-toggle waves-effect" id="allocate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Allocate To SC
+              </a>
+              <div class="dropdown-menu" aria-labelledby="allocate">
+                  <a class="dropdown-item" *ngFor="let SC of project.SC" (click)="allocateDataTo(SC,2)" ><span>{{SC.fullname}}</span></a>
+              </div>
+           </div>
+      </div>
+    </div>
+  </div>
+</div>
+<a id="processInfo" onclick="toastr.warning('Please wait while Parsing Data !!','',{preventDuplicates: true});"></a>
+<a id="fileUploadInfo" onclick="toastr.success('File Uploaded Successfully !!');"></a>
+<a id="deleteInfo" onclick="toastr.success('File Deleted Successfully !!');"></a>
+<a id="downloadInfo" onclick="toastr.success('Please check download, File is Downloading!!');"></a>
+<a id="defInfo" onclick="toastr.warning(`File Name should be different !`,``,{preventDuplicates: true});"></a>
+<a id="parseInfo" onclick="toastr.success(`File parsed successfully.`);"></a>
+<a id="renameInfo" onclick="toastr.success('File Rename Successfully !!');"></a>
+<a id="invalidFileInfo" onclick="toastr.error('Invalid File or Contents format', 'Please change file');"></a>
+<a id="dbnotfounderr" onclick="toastr.error('Eror during fetching Data Bank', 'Please check Network');"></a>
+
+
+

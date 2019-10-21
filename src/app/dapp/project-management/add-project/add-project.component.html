@@ -1,0 +1,724 @@
+<div *ngIf="isLoading" class="overlay">
+        <em class="loadTitle">Loading...</em>
+        <div class="spinner-grow" role="status">
+            <span class="sr-only"></span>
+          </div>
+    </div>
+  <div class="row">
+    <div class="col-12 p-md-0">
+      <div class="card">
+        <mat-horizontal-stepper linear #stepper (selectionChange)="onStepChange($event)">
+            <mat-step [stepControl]="step1FormGroup">
+              <form [formGroup]="step1FormGroup">
+                <ng-template matStepLabel><span matTooltip="Project Information">Step 1</span></ng-template>
+                
+                  <div class="step1">
+                      <div class="row">
+                          <div class="col-md-6">
+                            <mat-form-field >
+                              <input class="mt-3" matInput placeholder="Enter Project Name" formControlName="projectName" maxlength="50"
+                              [(ngModel)]="projectInfo.projectName" [ngModelOptions]="{standalone: true}" required minlength="3">
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-6">
+                            <mat-form-field>
+                              <textarea matInput placeholder="Enter Project Description (Optional)" formControlName="projectDesc"
+                              [(ngModel)]="projectInfo.projectDesc" [ngModelOptions]="{standalone: true}" maxlength="250" ></textarea>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field >
+                                    <mat-select [(ngModel)]="projectType" placeholder="Project Type"
+                                     [ngModelOptions]="{standalone: true}" required>
+                                      <mat-option value="0">RESIDENTIAL</mat-option>
+                                      <mat-option value="1">COMMERCIAL</mat-option>
+                                      <mat-option value="2">INDUSTRIAL</mat-option>
+                                      <mat-option value="3">AGRICULTURAL</mat-option>
+                                    </mat-select>
+                                  </mat-form-field> 
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field >
+                                  <mat-select [(ngModel)]="projectSubtype" placeholder="Project Sub Type"
+                                  [ngModelOptions]="{standalone: true}" [(value)]="projectSubtype" required>
+                                    <mat-option (click)="projectSubTypeClick(0)" value="0">PLOTTING</mat-option>
+                                    <mat-option (click)="projectSubTypeClick(1)" value="1">HOUSING</mat-option>
+                                    <mat-option (click)="projectSubTypeClick(2)" value="2">BUILDER PROJECTS</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field >
+                                    <input class="pr-4" matInput placeholder="Search your Location" #mapLocation1 required
+                                    [(ngModel)]="locationStep1.mapLocation" [ngModelOptions]="{standalone: true}" formControlName="mapLocation" >
+                                    <a class="my-loc" (click)=setCurrentPosition() data-toggle="tooltip" title="Choose Current Location" >
+                                        <img src="assets/images/currnt-location.png" alt="current-location">
+                                      </a>
+                                  </mat-form-field>                        
+                              <div class="map">
+                                  <agm-map [latitude]="latitudeStep1" [longitude]="longitudeStep1" [scrollwheel]="false" [zoom]="zoomStep1">
+                                      <agm-marker [latitude]="latitudeStep1" [longitude]="longitudeStep1"></agm-marker>
+                                    </agm-map>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field >
+                                  <input matInput placeholder="City"  formControlName="city" 
+                                  [(ngModel)]="locationStep1.city" [ngModelOptions]="{standalone: true}"  required>
+                                </mat-form-field>       
+                                <mat-form-field >
+                                  <input matInput placeholder="State" formControlName="state"  
+                                  [(ngModel)]="locationStep1.state" [ngModelOptions]="{standalone: true}"required>
+                                </mat-form-field>
+                                <mat-form-field >
+                                  <input matInput placeholder="Country" formControlName="country" 
+                                  [(ngModel)]="locationStep1.country" [ngModelOptions]="{standalone: true}" required>
+                                </mat-form-field>
+                                <mat-form-field >
+                                  <input matInput placeholder="Pin Code" formControlName="pincode" minlength="6" maxlength="6"   (keyup)="pinKeyup()"
+                                  [(ngModel)]="locationStep1.pincode" [ngModelOptions]="{standalone: true}"(keypress)="numKeyPress($event)" required>
+                                  <mat-spinner [diameter]="20" *ngIf="searching"></mat-spinner>
+                                </mat-form-field>       
+                                <mat-form-field >
+                                  <input matInput placeholder="District" formControlName="district" required
+                                  [(ngModel)]="locationStep1.district" [ngModelOptions]="{standalone: true}" >
+                                </mat-form-field>
+                                <mat-form-field >
+                                  <input matInput placeholder="Tehsil" formControlName="tehsil" 
+                                  [(ngModel)]="locationStep1.tehsil" [ngModelOptions]="{standalone: true}"required>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field >
+                                  <input matInput placeholder="Village (Optional)"  
+                                  [(ngModel)]="locationStep1.village" [ngModelOptions]="{standalone: true}">
+                                </mat-form-field> 
+                            </div>
+                                <div class="col-md-6">      
+                                <mat-form-field >
+                                  <input matInput placeholder="Landmark (Optional)"  
+                                  [(ngModel)]="locationStep1.landmark" [ngModelOptions]="{standalone: true}">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field >
+                                  <input matInput placeholder="Address Line 1" formControlName="addressLineOne" 
+                                  [(ngModel)]="locationStep1.addressLineOne" [ngModelOptions]="{standalone: true}" required>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-6">
+                                <mat-form-field >
+                                  <input matInput placeholder="Address Line 2 (Optional)" 
+                                  [(ngModel)]="locationStep1.addressLinetwo" [ngModelOptions]="{standalone: true}" >
+                                </mat-form-field>    
+                            </div>
+                        </div>      
+                        <div class="row">
+                            <div class="col-md-3">
+                               <div class="md-form">
+                                   <div class="file-field">
+                                     <a class="btn-floating purple-gradient mt-0 float-left" matTooltip="Project Blue Print" matTooltipPosition="above">
+                                       <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                                       <input type="file"multiple (change)="fileUpload($event)"accept="image/x-png,image/gif,image/jpeg">
+                                     </a>
+                                     <div class="file-path-wrapper">
+                                         <button (click)="uploadFiles()" class="btn btn-info btn-sm">
+                                             Upload File
+                                           </button>
+                                     </div>
+                                   </div>
+                                 </div>
+                            </div>
+                            <div class="col-md-9">
+                              <div class="row" *ngIf="projectGallery.length">
+                                <div class="col-md-2 col-4" *ngFor="let file of projectGallery">
+                                   <label class="img-label" *ngIf="file.type !='application/pdf'">
+                                     <a class="remove-file" (click)="removeFile(file,null,0)"  matTooltip="Remove"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                     </a>
+                                     <i *ngIf="file.fileUrl" matTooltip="File Uploaded" class="fa fa-check-square-o fileStatus" aria-hidden="true"></i>
+                                     <i *ngIf="!file.fileUrl" matTooltip="Click Upload Button to Upload" class="fa fa-cloud-upload fileStatus" aria-hidden="true"></i>
+                                     <img src="{{file.url || file.fileUrl}}" alt="projectGallery" >
+                                   </label>
+                                </div>
+                              </div>
+                            </div>
+                         </div>                 
+                  </div>  
+                  <div>
+                  <button type="button" (click)="addProjectStep1()" matStepperNext  mat-button >Submit & Next</button>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="step2FormGroup">
+              <form [formGroup]="step2FormGroup">
+                <ng-template matStepLabel><span matTooltip="Inventory Information">Step 2</span></ng-template>
+                  <div class="step2">
+                    <div class="row">
+                        <div class="col-md-3 col-6">
+                            <mat-form-field>
+                                <mat-label>Project Size Unit</mat-label>
+                              <mat-select [(ngModel)]="architectureReq.projectSizeUnit" name="projectSizeUnit" [ngModelOptions]="{standalone: true}" required>
+                                <mat-option (click)="projectSizeUnitsChange(unit)" *ngFor="let unit of projectSizeUnits" [value]="unit.enum">
+                                  {{unit.name}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <mat-form-field >
+                                <input matInput placeholder="Total worth of project in INR" formControlName="projectSizeValue" (keypress)="numKeyPress($event)"
+                                [(ngModel)]="architectureReq.projectSizeValue" [ngModelOptions]="{standalone: true}" required>
+                              </mat-form-field>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <mat-form-field>
+                                <mat-label>Approval Type</mat-label>
+                              <mat-select [(ngModel)]="architectureReq.approvalType"  [ngModelOptions]="{standalone: true}" name="approvalType" required>
+                                <mat-option *ngFor="let approval of approvalType" [value]="approval.enum">
+                                  {{approval.name}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        <div class="col-md-3 col-6">
+                            <mat-form-field >
+                                <input matInput placeholder="Layout Prepared By" formControlName="layoutPreparedBy"
+                                [(ngModel)]="architectureReq.layoutPreparedBy" [ngModelOptions]="{standalone: true}" required>
+                              </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                              <div [ngClass]="(otherFacilitySelected==true)?'col-md-6':'col-md-12'">
+                                <mat-form-field>
+                                  <mat-label>Select Facility</mat-label>
+                                  <mat-select [(ngModel)]="allSelectedFacility" [ngModelOptions]="{standalone: true}" multiple required>
+                                      <mat-select-trigger>
+                                          {{allSelectedFacility.length ?allSelectedFacility[0].name : ''}}
+                                          <span *ngIf="allSelectedFacility?.length > 1" class="additional-selection">
+                                            (+{{allSelectedFacility.length - 1}} {{allSelectedFacility?.length === 2 ? 'other' : 'others'}})
+                                          </span>
+                                        </mat-select-trigger>
+                                    <mat-option (click)="facilityCilck()" *ngFor="let fclity of facility" [value]="fclity">{{fclity.name}}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-6" *ngIf="otherFacilitySelected">
+                                <mat-form-field >
+                                  <input matInput placeholder="Enter Other Facility" name="otherFacility"
+                                  [ngModelOptions]="{standalone: true}" [(ngModel)]="otherFacility" required>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-6">
+                          <div class="row">
+                            <div class="col-8 pr-0">
+                                <mat-form-field >
+                                <input matInput placeholder="Main Entry Road Size" formControlName="mainEntryRoadSize"(keypress)="doubleKeyPress($event)"
+                                [(ngModel)]="architectureReq.mainEntryRoadSize.mainEntryRoadSizeValue" [ngModelOptions]="{standalone: true}" required>
+                              </mat-form-field>
+                              </div>
+                            <div class="col-4">
+                                <mat-form-field >
+                                    <mat-select placeholder="Length Unit" [(ngModel)]="roadSizeUnit" formControlName="roadSizeUnit" name="roadSizeUnit" 
+                                    (selectionChange)="roadSizeUnitChng($event.value)" [ngModelOptions]="{standalone: true}" required>
+                                            <mat-option *ngFor="let unit of lengthUnit" [value]="unit.name">
+                                              {{unit.name}}
+                                            </mat-option>
+                                          </mat-select>
+                                    </mat-form-field>
+                            </div>
+                          </div>
+                            
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="row">
+                                <div class="col-8 pr-0">
+                                    <mat-form-field >
+                                        <input matInput placeholder="Service Road Size" formControlName="serviceRoadSize"(keypress)="doubleKeyPress($event)"
+                                        [(ngModel)]="architectureReq.serviceRoadSize.serviceRoadSizeValue" [ngModelOptions]="{standalone: true}"
+                                        (keyup)="serviceRoadSizeKeyUp($event)" required>
+                                      </mat-form-field>
+                                  </div>
+                                <div class="col-4">
+                                    <mat-form-field >
+                                        <mat-select placeholder="Length Unit" [(ngModel)]="roadSizeUnit" formControlName="roadSizeUnit"
+                                         name="roadSizeUnit" [ngModelOptions]="{standalone: true}" (selectionChange)="roadSizeUnitChng($event.value)" required>
+                                                <mat-option *ngFor="let unit of lengthUnit" [value]="unit.name">
+                                                  {{unit.name}}
+                                                </mat-option>
+                                              </mat-select>
+                                        </mat-form-field>
+                                </div>
+                              </div>
+                           
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <mat-form-field >
+                              <input matInput placeholder="Total Product/Plot Count" formControlName="totalInventoryCount" (keypress)="numKeyPress($event)"
+                              [(ngModel)]="inventoryRequest.totalInventoryCount" [ngModelOptions]="{standalone: true}"(keyup)="totalInventoryCountKeyUp($event)" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <mat-form-field >
+                              <input matInput placeholder="Total Available Product/Plot Count" formControlName="availableInventoryCount" (keypress)="numKeyPress($event)"
+                              [(ngModel)]="inventoryRequest.availableInventoryCount" [ngModelOptions]="{standalone: true}"(keyup)="totalAvailableInventoryCountKeyUp(inventoryRequest.availableInventoryCount)"  required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 ">
+                          <p class="text-warning" *ngIf="requiredFacing > 0">{{requiredFacing}} facing required to select</p>
+                          <p class="text-success" *ngIf="requiredFacing == 0">Face Selection is valid</p>
+                            <div class="btn-group row pl-md-3" data-toggle="buttons">
+                                <div class="direction col-4 p-0" *ngFor="let face of facingSide">
+                                    <label id="{{face.value}}" (click)="toggleFacing(face)" *ngIf="face.value !='CENTER'" class="btn btn-info form-check-label">
+                                        <input class="form-check-input" type="checkbox" autocomplete="off">{{face.name}}
+                                      </label>
+                                    <div *ngIf="face.isSelected">
+                                        <div class="btn-group radio-group">
+                                          <label (click)="addCount(face)" class="product_add">+</label>
+                                          <label (click)="subCount(face)" class="product_sub">-</label>
+                                          <span class="pt-1 pl-2">{{face.count}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="direction-div" *ngIf="face.value =='CENTER'" >
+                                        <img class="direction-img" src="assets/images/derection2.jpg" alt="direction">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field >
+                                <input matInput placeholder="Other Layout Approval (Optional)"
+                                [(ngModel)]="architectureReq.OtherLayoutApproval" [ngModelOptions]="{standalone: true}">
+                              </mat-form-field>
+                            <mat-form-field >
+                              <input matInput placeholder="Circle Rate per {{selectedUnit}}" formControlName="circleRate"(keypress)="numKeyPress($event)"
+                              [(ngModel)]="pricing.circleRate" [ngModelOptions]="{standalone: true}" required>
+                            </mat-form-field>
+                            <mat-form-field >
+                                <input matInput placeholder="Development Charge per {{selectedUnit}}" formControlName="developmentCharge"(keypress)="numKeyPress($event)"
+                                [(ngModel)]="pricing.developmentCharge" [ngModelOptions]="{standalone: true}" required>
+                              </mat-form-field>
+                            <mat-form-field >
+                              <input matInput placeholder="Premium Rate per {{selectedUnit}} (Optional)" (keypress)="numKeyPress($event)"
+                              [(ngModel)]="pricing.premiumRate" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row inentory mt-3" *ngIf="plottingVariationRequestList.length">
+                      <p class="col-12">Define Your Inventory Category</p>
+                      <div *ngFor='let plotting of plottingVariationRequestList ;let i = index' class="col-md-6 mt-2">
+                        <div class="bgray pb-0">
+                             <span >Enter details of {{i+1}}{{returnNth(i+1)}} Inventory</span>
+                            <a *ngIf="i === 0"  class="adMoreInvt" (click)="addMoreInvt()" #tooltip="matTooltip"  matTooltip="Add More Inventory"><i class="fas fa-plus-circle"></i></a>
+                            <a *ngIf="i != 0"  class="removeInvt" (click)="removeInvt(plotting)" #tooltip="matTooltip"  matTooltip="Remove"><i class="fas fa-trash"></i></a>
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <mat-form-field >
+                                      <input matInput placeholder=" Dimension  in {{selectedUnit}}" (keypress)="doubleKeyPress($event)"
+                                      [(ngModel)]="plotting.dimension" [ngModelOptions]="{standalone: true}" required>
+                                    </mat-form-field>
+                              </div>
+                              <div class="col-md-6">
+                                  <mat-form-field >
+                                      <input matInput placeholder="Variation Count" (keypress)="numKeyPress($event)" (keyup)="variationCountKeyUp(plotting)"
+                                      [(ngModel)]="plotting.variationCount" [ngModelOptions]="{standalone: true}" required>
+                                    </mat-form-field>
+                              </div>       
+                              <div class="col-md-6">
+                                  <mat-form-field >
+                                      <input matInput placeholder="Available Count" (keypress)="numKeyPress($event)" (keyup)="availableCountKeyUp(plotting)"
+                                      [(ngModel)]="plotting.availableVariationCount" [ngModelOptions]="{standalone: true}" required>
+                                    </mat-form-field>
+                              </div>   
+                              <div class="col-md-6">
+                                 
+                                    <mat-checkbox [(ngModel)]="plotting.isPlc" [ngModelOptions]="{standalone: true}">I know Facing</mat-checkbox>
+                                 
+                                  <mat-form-field class="pl-2" style="width: 50% !important;" *ngIf="plotting.isPlc">
+                                  <mat-select [(ngModel)]="plotting.plc" 
+                                    name="facing" [ngModelOptions]="{standalone: true}"  required>
+                                          <mat-option value="Back" active>Back</mat-option>
+                                          <mat-option value="Front">Front</mat-option>
+                                          <mat-option value="Corner">Corner</mat-option>
+                                        </mat-select>
+                                  </mat-form-field>
+                                </div>                         
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <mat-form-field>
+                              <mat-label>Near By Location</mat-label>
+                              <mat-select [(ngModel)]="allSelectedNearByLoc" [ngModelOptions]="{standalone: true}"  multiple required>
+                                <mat-option *ngFor="let near of nearByLoc" [value]="near">{{near.name}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6" *ngFor="let near of allSelectedNearByLoc; let i = index">
+                            <div class="row">
+                              <div class="col-12">
+                                <mat-form-field *ngIf="near.name != 'OTHER'">
+                                  <input matInput placeholder="Near By Location {{near.name}}" 
+                                  [ngModelOptions]="{standalone: true}" [(ngModel)]="near.nearByLocation" required>
+                                </mat-form-field>    
+                                <mat-form-field  *ngIf="near.name == 'OTHER'">
+                                    <input matInput placeholder="Near By Other Location"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="near.nearByLocation" required>
+                                  </mat-form-field>                              
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field >
+                                    <input matInput placeholder="Broker Discount (Optional)" (keypress)="doubleKeyPress($event)"
+                                    [(ngModel)]="propertyInfo.brokerDiscount" [ngModelOptions]="{standalone: true}" >
+                                  </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                              <mat-form-field>
+                                  <mat-select [(ngModel)]="propertyInfo.propertyType" disabled 
+                                  [ngModelOptions]="{standalone: true}"  placeholder="Property Type">
+                                    <mat-option value="0" >Prebuild Assests</mat-option>
+                                    <mat-option value="1" >Raw Assests</mat-option>
+                                </mat-select>
+                              </mat-form-field> 
+                            </div>
+                            <div class="col-md-4">
+                              <mat-radio-group aria-label="Select an option">
+                                <mat-radio-button checked (click)="loanStatus(true)" class="mt-4 w-50" value="true">With Loan</mat-radio-button>
+                                <mat-radio-button (click)="loanStatus(false)" value="false">Without Loan</mat-radio-button>
+                              </mat-radio-group>
+                            </div>
+                      </div> 
+                    </div>
+                <div>
+                  <button type="button" mat-button matStepperPrevious>Back</button>
+                  <button type="button" (click)="addProjectStep2()" mat-button matStepperNext>Submit & Next</button>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="step3FormGroup">
+              <form [formGroup]="step3FormGroup">
+              <ng-template matStepLabel><span matTooltip="Incentive Information">Step 3</span></ng-template>
+              <div class="spet3">
+                <div class="row">
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <input matInput placeholder="Incentive In per {{selectedUnit}}" formControlName="incentiveIn" maxlength="10"
+                      matTooltip="Your incentive In is dependent on per unit area"
+                      [(ngModel)]="incentive.incentiveIn" [ngModelOptions]="{standalone: true}" required>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <input matInput placeholder="Incentive Out per {{selectedUnit}}" formControlName="incentiveOut"maxlength="10"
+                      matTooltip="Your incentive Out is dependent on per unit area"
+                      [(ngModel)]="incentive.incentiveOut" [ngModelOptions]="{standalone: true}" required>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <input matInput placeholder="Incentive Count" formControlName="invcount"maxlength="10"
+                      [(ngModel)]="target.invcount" [ngModelOptions]="{standalone: true}" required>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <input matInput placeholder="ROI in percentage" formControlName="roi"maxlength="10"
+                      [(ngModel)]="target.roi" [ngModelOptions]="{standalone: true}" required>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <mat-form-field>
+                    <mat-select placeholder="Incentive Type" [(value)]="incentive.incentiveType" name="incentiveType" required>
+                      <mat-option  value="0"> PERCENTAGE</mat-option>
+                      <mat-option  value="1"> FIXED PRICE</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button type="button" mat-button matStepperPrevious>Back</button>
+                <button type="button" mat-button (click)="addProjectStep3()" matStepperNext>Submit & Next</button>
+              </div>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="step4FormGroup">
+              <form [formGroup]="step4FormGroup">
+              <ng-template matStepLabel><span matTooltip="Team and Task Information">Step 4</span></ng-template>
+              <div class="step4">
+                  <mat-accordion class="example-headers-align">
+                      <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+                        <mat-expansion-panel-header style="border-top: 1px solid rgb(222, 220, 220);">
+                          <mat-panel-title>
+                              <span>Broking Cunsultant<span class="badge badge-secondary ml-2">{{selectedBrokingConsultant.length}}</span></span>
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-form-field class="col-md-6 pl-0 mt-2">
+                          <mat-select placeholder="Broking Consultant" [(ngModel)]="selectedBrokingConsultant" (selectionChange)="teamSelectChange($event, 'bc')"
+                          [ngModelOptions]="{standalone: true}" name="a" multiple required>
+                            <mat-option  *ngFor="let member of myTeam | async" [value]="member">{{member.fullName}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <div class="max-height">
+                            <div class="selectedBrokingConsultant" *ngIf="selectedBrokingConsultant.length">
+                              <div class="bgray pb-0" *ngFor="let bC of selectedBrokingConsultant; let i=index;">
+                                <span>{{i+1}}. Enter Details of <span class="fw-500">{{bC.fullName}}</span></span>
+                                <a *ngIf="bC.id != ''"  class="pull-right" (click)="removeTeam(bC,'bc')"  matTooltip="Remove"><i class="fas fa-trash"></i></a>
+                                <div class="row">
+                                    <div class="col-md-4 col-6">
+                                        <mat-form-field>
+                                            <mat-select placeholder="Occupation" [(ngModel)]="bC._occupation" [ngModelOptions]="{standalone: true}"  [disabled]="bC.id != ''"  required>
+                                              <mat-option *ngFor="let occ of bC.occupation" [value]="occ.enum">{{occ.name}}</mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 col-6">
+                                        <mat-form-field>
+                                          <mat-select placeholder="Roles" [(ngModel)]="bC.roles"
+                                           [ngModelOptions]="{standalone: true}"  multiple required>
+                                           <mat-option *ngFor="let role of utlServices.userRoles" [value]="role.enum">{{role.name}}</mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 col-6">
+                                        <mat-form-field>
+                                        <mat-select placeholder="Incentive Type" [(ngModel)]="bC.incentiveType" [ngModelOptions]="{standalone: true}" required>
+                                          <mat-option value="0"> PERCENTAGE</mat-option>
+                                          <mat-option value="1"> FIXED PRICE</mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 col-6">
+                                        <mat-form-field>
+                                          <input matInput placeholder="Incentive Value" id="bcinc{{bC.uuid}}"
+                                          [(ngModel)]="bC.incentiveValue" [ngModelOptions]="{standalone: true}"  required>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 col-12" *ngIf="bC.id !=''">
+                                      <mat-form-field>
+                                        <mat-select placeholder="Member Status" [(value)]="bC.memberStatus"  required>
+                                          <mat-option value="0">INACTIVE</mat-option>
+                                          <mat-option value="1">ACTIVE</mat-option>
+                                          <mat-option value="2">SUSPENDED</mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                  </div>
+                                  <div class="col-md-4 col-12">
+                                      <mat-form-field>
+                                        <mat-select placeholder="Department" [(ngModel)]="bC.departmentName" [ngModelOptions]="{standalone: true}" required>
+                                          <mat-option *ngFor="let dept of departmentList" [value]="dept.value" >{{dept.name}}</mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                  </div>
+                                </div> 
+                            </div>
+                            </div>
+                        </div>
+                    
+                        <mat-action-row>
+                          <button mat-button color="primary" (click)="nextStep()">Next</button>
+                        </mat-action-row>
+                      </mat-expansion-panel>
+                      <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                              <span>Legal Consultant<span class="badge badge-secondary ml-2">{{selectedLegalConsultant.length}}</span></span>
+                          </mat-panel-title>                              
+                        </mat-expansion-panel-header>
+                    
+                        <mat-form-field class="col-md-6 pl-0 mt-2">
+                            <mat-label>Legal Consultant</mat-label>
+                            <mat-select [(value)]="selectedLegalConsultant" (selectionChange)="teamSelectChange($event, 'lc')" name="c" multiple required>
+                              <mat-option  *ngFor="let member of myTeam | async" [value]="member">{{member.fullName}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <div class="max-height">
+                              <div class="selectedLegalConsultant" *ngIf="selectedLegalConsultant.length">
+                                  <div class="bgray pb-0" *ngFor="let lc of selectedLegalConsultant; let i=index;">
+                                  <span>{{i+1}}. Enter Details of <b>{{lc.fullName}}</b></span>
+                                  <a *ngIf="lc.id != ''"  class="pull-right" (click)="removeTeam(lc,'lc')"  matTooltip="Remove"><i class="fas fa-trash"></i></a>
+                                  <div class="row">
+                                      <div class="col-md-4 col-6">
+                                          <mat-form-field>
+                                              <mat-select placeholder="Occupation" [(value)]="lc._occupation" required>
+                                                <mat-option *ngFor="let occ of lc.occupation" [value]="occ.enum">{{occ.name}}</mat-option>
+                                              </mat-select>
+                                            </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 col-6">
+                                          <mat-form-field>
+                                            <mat-select  placeholder="Roles" [(value)]="lc.roles" multiple required>
+                                              <mat-option *ngFor="let role of utlServices.userRoles" [value]="role.enum">{{role.name}}</mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 col-6">
+                                          <mat-form-field>
+                                          <mat-select placeholder="Incentive Type" [(value)]="lc.incentiveType" required>
+                                            <mat-option value="0"> PERCENTAGE</mat-option>
+                                            <mat-option value="1"> FIXED PRICE</mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 col-6">
+                                          <mat-form-field>
+                                            <input matInput placeholder="Incentive Value" id="lcinc{{lc.uuid}}"
+                                            [(ngModel)]="lc.incentiveValue" [ngModelOptions]="{standalone: true}" required>
+                                          </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 col-12">
+                                        <mat-form-field>
+                                          <mat-select placeholder="Department" [(ngModel)]="lc.departmentName" [ngModelOptions]="{standalone: true}" required>
+                                            <mat-option *ngFor="let dept of departmentList" [value]="dept.value" >{{dept.name}}</mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                 </div>
+                                </div>
+                              </div>
+                            </div>
+                    
+                        <mat-action-row>
+                          <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                          <button mat-button color="primary" (click)="nextStep()">next</button>
+                        </mat-action-row>
+                      </mat-expansion-panel>
+                       <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                              <span>Digital Marketing Expert<span class="badge badge-secondary ml-2">{{selectedDigitalMarketingExpert.length}}</span></span>                                                            
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+                    
+                        <mat-form-field class="col-md-6 pl-0 mt-2">
+                            <mat-label>Digital Marketing Expert</mat-label>
+                            <mat-select [(value)]="selectedDigitalMarketingExpert" (selectionChange)="teamSelectChange($event, 'dme')" name="e" multiple required>
+                              <mat-option  *ngFor="let member of myTeam | async" [value]="member">{{member.fullName}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <div class="max-height">
+                              <div class="selectedDigitalMarketingExpert" *ngIf="selectedDigitalMarketingExpert.length">
+                                  <div class="bgray pb-0" *ngFor="let dme of selectedDigitalMarketingExpert; let i=index;">
+                                  <span>{{i+1}}. Enter Details of <b>{{dme.fullName}}</b></span>
+                                  <a *ngIf="dme.id != ''"  class="pull-right" (click)="removeTeam(dme,'dme')"  matTooltip="Remove"><i class="fas fa-trash"></i></a>
+                                  <div class="row">
+                                      <div class="col-md-4 col-6">
+                                          <mat-form-field>
+                                              <mat-select placeholder="Occupation" [(value)]="dme._occupation" required>
+                                                <mat-option *ngFor="let occ of dme.occupation" [value]="occ.enum">{{occ.name}}</mat-option>
+                                              </mat-select>
+                                            </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 col-6">
+                                          <mat-form-field>
+                                            <mat-select placeholder="Roles" [(value)]="dme.roles" multiple required>
+                                              <mat-option value="0">NA</mat-option>
+                                              <mat-option value="1">RA</mat-option>
+                                              <mat-option value="2">SC</mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 col-6">
+                                          <mat-form-field>
+                                          <mat-select placeholder="Incentive Type" [(value)]="dme.incentiveType" required>
+                                            <mat-option value="0"> PERCENTAGE</mat-option>
+                                            <mat-option value="1"> FIXED PRICE</mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 col-6">
+                                          <mat-form-field>
+                                            <input matInput placeholder="Incentive Value" id="dmeinc{{dme.uuid}}"
+                                            [(ngModel)]="dme.incentiveValue" [ngModelOptions]="{standalone: true}" required>
+                                          </mat-form-field>
+                                      </div>
+                                      <div class="col-md-4 col-12">
+                                        <mat-form-field>
+                                          <mat-select placeholder="Department" [(ngModel)]="dme.departmentName" [ngModelOptions]="{standalone: true}" required>
+                                            <mat-option *ngFor="let dept of departmentList" [value]="dept.value" >{{dept.name}}</mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                    
+                        <mat-action-row>
+                          <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                          <button mat-button color="primary" (click)="nextStep()">End</button>
+                        </mat-action-row>
+                      </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+              <div>
+                <button type="button" mat-button matStepperPrevious>Back</button>
+                <button type="submit" mat-button (click)="addProjectStep4()"  matStepperNext>Submit</button>
+              </div>
+              </form>
+            </mat-step>
+          </mat-horizontal-stepper>
+      </div>
+    </div>
+  </div>
+    
+    <a id="faceSelectionError" onclick="toastr.error('Please Select Valid Face Selection !!','',{preventDuplicates: true});"></a>
+    <a id="inventoryError" onclick="toastr.error('Please fill details of Inventory!!','',{preventDuplicates: true});"></a>
+    <a id="formError" onclick="toastr.error('Please fill Form Correctly!!','',{preventDuplicates: true});"></a>
+    <a id="inValidTotalInvt" onclick="toastr.warning('Available Inventory should be less than or Equal to Total Inventory!!','',{preventDuplicates: true});"></a>
+    <a id="inValidService" onclick="toastr.warning('Service Road Size should be less than  Main Road Size!!','',{preventDuplicates: true});"></a>
+    <a id="subAvailCountError" onclick="toastr.warning('Total sub Available count should be less than or equal to total available count.','',{preventDuplicates: true});"></a>
+    <a id="availvariationError" onclick="toastr.warning('Available count should be less than or equal to Variation count..','',{preventDuplicates: true});"></a>
+
+
+    <a id="inValidMaxMinPlot" onclick="toastr.warning('Minimum Plot Size should be less or equal to Maximum Plot Size!!','',{preventDuplicates: true});"></a>
+
+
+    <a id="fileSizeError" onclick="toastr.warning(`File Size should be less than 5 MB !`);"></a>
+    <a id="fileTypeError" onclick="toastr.warning(`File Type Should be images and pdf only.`);"></a>
+    
+    <a id="chooseFile" onclick="toastr.warning(`Choose Image File to Upload`,``,{preventDuplicates: true});"></a>
+    <a id="uploadFile" onclick="toastr.warning(`Upload filefirst then proceed next!!`,``,{preventDuplicates: true});"></a>
+
+    <a id="fileUpSuss" onclick="toastr.success(`File Uploaded Sucessfully`)"></a>
+    <a id="pupdate" onclick="toastr.success(`Project Uploaded Sucessfully`)"></a>
+
+    <a id="fileAlreadyUp" onclick="toastr.warning(`File Aready Uploaded`,``,{preventDuplicates: true});"></a>
+    <a id="maxFileLimit" onclick="toastr.warning(`Maximum File Limit is 10`,``,{preventDuplicates: true});"></a>
+    <a id="otherfac" onclick="toastr.warning(`Enter Other Facility`,``,{preventDuplicates: true});"></a>
+    <a id="invalidNearByLoc" onclick="toastr.warning(`Enter description of near by location`,``,{preventDuplicates: true});"></a>
+    <a id="variationCountError" onclick="toastr.warning(`Total Variation Count Should be less than or equal to Available Inventory Count`,``,{preventDuplicates: true});"></a>
+
+
+    <a id="minUser" onclick="toastr.warning(`Please select min one user`,``,{preventDuplicates: true});"></a>
+    <a id="overInventory" onclick="toastr.warning(`Property Category should be equal to or less than total inventory count`,``,{preventDuplicates: true});"></a>
+    <a id="overFace" onclick="toastr.warning(`Facing count should be equal to total inventory count`,``,{preventDuplicates: true});"></a>
+    <a id="minOneUser" onclick="toastr.warning(`Minium one user is required, Add One User in Broking Cunsultant then try to delete.`,``,{preventDuplicates: true});"></a>
+
+    
+
+    
